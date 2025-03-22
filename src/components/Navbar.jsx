@@ -13,7 +13,21 @@ const Navbar = () => {
 
   const { counter } = useContext(ShopContext);
 
-  const { setShowSearch, getCartCount } = useContext(ShopContext);
+  const {
+    setShowSearch,
+    getCartCount,
+    navigate,
+    token,
+    setToken,
+    setCartItems,
+  } = useContext(ShopContext);
+
+  function logOut() {
+    localStorage.removeItem("token");
+    setToken("");
+    setCartItems({});
+    navigate("/login");
+  }
 
   return (
     <header className="flex items-center justify-between py-5 font-medium">
@@ -48,15 +62,26 @@ const Navbar = () => {
         </div>
 
         <div className="group relative">
+          {/* User Icon */}
           <Link to="/login">
-            <BiUser className="w-5.5 h-5.5 cursor-pointer hover:text-lightPink duration-500" />
+            <BiUser className="w-6 h-6 text-gray-700 hover:text-lightPink transition-colors duration-300 cursor-pointer" />
           </Link>
 
-          <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4 z-1000">
-            <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
-              <p className="cursor-pointer hover:text-black">My Profile</p>
-              <p className="cursor-pointer hover:text-black">Orders</p>
-              <p className="cursor-pointer hover:text-black">Logout</p>
+          {/* Dropdown Menu */}
+          <div className="absolute right-0 pt-3 hidden group-hover:block dropdown-menu z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out">
+            <div className="w-48 py-4 px-5 bg-white rounded-xl shadow-lg border border-gray-100 text-gray-700 flex flex-col gap-3">
+              <p className="text-base font-medium hover:text-chocolateBrown transition-colors duration-200 cursor-pointer">
+                My Profile
+              </p>
+              <p className="text-base font-medium hover:text-chocolateBrown transition-colors duration-200 cursor-pointer">
+                Orders
+              </p>
+              <p
+                onClick={logOut}
+                className="text-base font-medium hover:text-chocolateBrown transition-colors duration-200 cursor-pointer"
+              >
+                Logout
+              </p>
             </div>
           </div>
         </div>
