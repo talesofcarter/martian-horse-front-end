@@ -23,15 +23,15 @@ const Navbar = () => {
   } = useContext(ShopContext);
 
   function logOut() {
+    navigate("/login");
     localStorage.removeItem("token");
     setToken("");
     setCartItems({});
-    navigate("/login");
   }
 
   return (
     <header className="flex items-center justify-between py-5 font-medium">
-      <span>
+      <span onClick={() => navigate("/")}>
         <img
           className="w-[110px] cursor-pointer "
           src="/images/logo.png"
@@ -63,27 +63,33 @@ const Navbar = () => {
 
         <div className="group relative">
           {/* User Icon */}
-          <Link to="/login">
+          <div onClick={() => (token ? null : navigate("/login"))}>
             <BiUser className="w-6 h-6 text-gray-700 hover:text-lightPink transition-colors duration-300 cursor-pointer" />
-          </Link>
+          </div>
 
           {/* Dropdown Menu */}
-          <div className="absolute right-0 pt-3 hidden group-hover:block dropdown-menu z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out">
-            <div className="w-48 py-4 px-5 bg-white rounded-xl shadow-lg border border-gray-100 text-gray-700 flex flex-col gap-3">
-              <p className="text-base font-medium hover:text-chocolateBrown transition-colors duration-200 cursor-pointer">
-                My Profile
-              </p>
-              <p className="text-base font-medium hover:text-chocolateBrown transition-colors duration-200 cursor-pointer">
-                Orders
-              </p>
-              <p
-                onClick={logOut}
-                className="text-base font-medium hover:text-chocolateBrown transition-colors duration-200 cursor-pointer"
-              >
-                Logout
-              </p>
+
+          {token && (
+            <div className="absolute right-0 pt-3 hidden group-hover:block dropdown-menu z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out">
+              <div className="w-48 py-4 px-5 bg-white rounded-xl shadow-lg border border-gray-100 text-gray-700 flex flex-col gap-3">
+                <p className="text-base font-medium hover:text-chocolateBrown transition-colors duration-200 cursor-pointer">
+                  My Profile
+                </p>
+                <p
+                  onClick={() => navigate("/orders")}
+                  className="text-base font-medium hover:text-chocolateBrown transition-colors duration-200 cursor-pointer"
+                >
+                  Orders
+                </p>
+                <p
+                  onClick={logOut}
+                  className="text-base font-medium hover:text-chocolateBrown transition-colors duration-200 cursor-pointer"
+                >
+                  Logout
+                </p>
+              </div>
             </div>
-          </div>
+          )}
         </div>
         <Link to="/cart" className="relative">
           <HiOutlineShoppingBag className="w-5.5 h-5.5" />
