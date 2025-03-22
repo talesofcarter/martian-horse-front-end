@@ -8,7 +8,7 @@ import ProductItem from "../components/ProductItem";
 
 const Shop = () => {
   const { products, search, showSearch } = useContext(ShopContext);
-  const [showFilter, setShowFilter] = useState(false);
+  const [showFilter, setShowFilter] = useState(true);
   const [openCategories, setOpenCategories] = useState(false);
   const [openSubCategory, setOpenSubCategory] = useState(false);
   const [openSize, setOpenSize] = useState(false);
@@ -130,7 +130,7 @@ const Shop = () => {
 
   useEffect(() => {
     applyFilter();
-  }, [category, subCategory, size, price, search, showSearch]);
+  }, [category, subCategory, size, price, search, showSearch, products]);
 
   useEffect(() => {
     sortProduct();

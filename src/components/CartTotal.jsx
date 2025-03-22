@@ -27,12 +27,7 @@ const CartTotal = () => {
         <div className="flex justify-between">
           <p className="text-[16px]">Shipping</p>
           <p className="text-[16px]">
-            {currency}{" "}
-            {delivery_fee.toLocaleString(undefined, {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-              Name,
-            })}
+            {currency} {new Intl.NumberFormat("en-KE").format(delivery_fee)}
           </p>
         </div>
 

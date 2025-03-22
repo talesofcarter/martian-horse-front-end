@@ -91,7 +91,7 @@ const Product = () => {
           <div className="mb-8">
             <p className="text-lg font-medium mb-4">Select Size</p>
             <div className="flex gap-2 flex-wrap">
-              {productData.size.map((item, index) => (
+              {productData.sizes.map((item, index) => (
                 <button
                   key={index}
                   onClick={() => setSize(item)}

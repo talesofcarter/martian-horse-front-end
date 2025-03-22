@@ -5,9 +5,13 @@ import { images } from "../assets/products/products";
 
 const Hero = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const heroImageRef = useRef(null);
+  const imageRef = useRef(null); // For images
+  const videoRef = useRef(null); // For video
   const textRef = useRef(null);
   const buttonRef = useRef(null);
+
+  // Toggle this to switch between image and video for testing
+  const useVideo = true; // Set to false to use images
 
   const goToNextImage = () => {
     setCurrentImageIndex((prevIndex) =>
@@ -22,46 +26,64 @@ const Hero = () => {
   };
 
   useEffect(() => {
-    const heroImage = heroImageRef.current;
+    const image = imageRef.current;
     const text = textRef.current;
     const button = buttonRef.current;
 
-    gsap.fromTo(
-      heroImage,
-      { scale: 1 },
-      { scale: 1.5, duration: 20, ease: "power2.out" }
-    );
+    // Apply GSAP only if using images (not video)
+    if (!useVideo && image) {
+      gsap.fromTo(
+        image,
+        { scale: 1 },
+        { scale: 1.5, duration: 20, ease: "power2.out" }
+      );
+    }
 
-    gsap.fromTo(
-      text,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 1, delay: 0.5, ease: "power2.out" }
-    );
+    // Apply text and button animations regardless of image/video
+    if (text) {
+      gsap.fromTo(
+        text,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 1, delay: 0.5, ease: "power2.out" }
+      );
+    }
 
-    gsap.fromTo(
-      button,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 1, delay: 1, ease: "power2.out" }
-    );
+    if (button) {
+      gsap.fromTo(
+        button,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 1, delay: 1, ease: "power2.out" }
+      );
+    }
   }, [currentImageIndex]);
 
   useEffect(() => {
     const interval = setInterval(() => {
       goToNextImage();
-    }, 59000);
+    }, 59000); // 59 seconds
 
     return () => clearInterval(interval);
   }, [currentImageIndex]);
 
   return (
     <section className="relative w-full h-[470px] overflow-hidden">
-      <video
-        src="/reel/martian-horse-reel.mp4"
-        autoPlay
-        muted
-        loop
-        className="w-full h-full object-none"
-      />
+      {useVideo ? (
+        <video
+          ref={videoRef}
+          src="/reel/martian-horse-reel.mp4"
+          autoPlay
+          muted
+          loop
+          className="w-full h-full object-none"
+        />
+      ) : (
+        <img
+          ref={imageRef}
+          src={images[currentImageIndex]}
+          alt="Hero Image"
+          className="w-full h-full object-cover"
+        />
+      )}
 
       <div
         ref={textRef}
