@@ -22,24 +22,25 @@ const CartTotal = () => {
           </p>
         </div>
 
-        <hr class="border-gray-300" />
+        <hr className="border-gray-300" />
 
-        <div class="flex justify-between">
-          <p class="text-[16px]">Shipping</p>
-          <p class="text-[16px]">
+        <div className="flex justify-between">
+          <p className="text-[16px]">Shipping</p>
+          <p className="text-[16px]">
             {currency}{" "}
             {delivery_fee.toLocaleString(undefined, {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
+              Name,
             })}
           </p>
         </div>
 
-        <hr class="border-gray-300" />
+        <hr className="border-gray-300" />
 
-        <div class="flex justify-between">
-          <strong class="text-[16px]">Total</strong>
-          <strong class="text-[16px]">
+        <div className="flex justify-between">
+          <strong className="text-[16px]">Total</strong>
+          <strong className="text-[16px]">
             {currency}{" "}
             {(getCartAmount() === 0
               ? 0
@@ -55,13 +56,13 @@ const CartTotal = () => {
       <div class="mt-6 space-y-4">
         <button
           onClick={() => navigate("/place-order")}
-          class="w-full bg-black text-white text-[16px] py-3 rounded hover:bg-chocolateBrown transition-all duration-300 cursor-pointer"
+          className="w-full bg-black text-white text-[16px] py-3 rounded hover:bg-chocolateBrown transition-all duration-300 cursor-pointer"
         >
           Proceed to Checkout
         </button>
 
-        <div class="text-center">
-          <button class="text-[16px] hover:text-chocolateBrown hover:underline cursor-pointer">
+        <div className="text-center">
+          <button className="text-[16px] hover:text-chocolateBrown hover:underline cursor-pointer">
             Continue Shopping
           </button>
         </div>
