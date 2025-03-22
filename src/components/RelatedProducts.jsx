@@ -2,7 +2,11 @@ import React, { useState, useContext, useEffect } from "react";
 import { ShopContext } from "../context/ShopContext";
 import Title from "./Title.jsx";
 import ProductItem from "./ProductItem.jsx";
-const RelatedProducts = ({ category, subCategory }) => {
+import { Link } from "react-router-dom";
+
+// TODO: add an automatically scroll or transition, so that when an individual related product is clicked, it shows up.
+
+const RelatedProducts = ({ category, subCategory, id }) => {
   const { products } = useContext(ShopContext);
   const [related, setRelated] = useState([]);
 
