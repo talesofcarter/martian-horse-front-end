@@ -5,15 +5,15 @@ const CartTotal = () => {
   const { currency, delivery_fee, getCartAmount, navigate } =
     useContext(ShopContext);
   return (
-    <section class="bg-lightGray p-8 rounded border border-gray-300 w-full max-w-md mx-auto">
-      <header class="mb-6">
-        <h1 class="text-xl font-semibold">Order Summary</h1>
+    <section className="bg-lightGray p-8 rounded border border-gray-300 w-full max-w-md mx-auto">
+      <header className="mb-6">
+        <h1 className="text-xl font-semibold">Order Summary</h1>
       </header>
 
-      <div class="space-y-4 text-sm">
-        <div class="flex justify-between">
-          <p class="text-[16px]">Subtotal</p>
-          <p class="text-[16px]">
+      <div className="space-y-4 text-sm">
+        <div className="flex justify-between">
+          <p className="text-[16px]">Subtotal</p>
+          <p className="text-[16px]">
             {currency}{" "}
             {getCartAmount().toLocaleString(undefined, {
               minimumFractionDigits: 2,
@@ -48,7 +48,7 @@ const CartTotal = () => {
         </div>
       </div>
 
-      <div class="mt-6 space-y-4">
+      <div className="mt-6 space-y-4">
         <button
           onClick={() => navigate("/place-order")}
           className="w-full bg-black text-white text-[16px] py-3 rounded hover:bg-chocolateBrown transition-all duration-300 cursor-pointer"
