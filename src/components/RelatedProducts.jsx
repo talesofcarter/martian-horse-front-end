@@ -1,10 +1,9 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { ShopContext } from "../context/ShopContext";
 import Title from "./Title.jsx";
 import ProductItem from "./ProductItem.jsx";
-import { Link } from "react-router-dom";
 
-// TODO: add an automatically scroll or transition, so that when an individual related product is clicked, it shows up.
+// TODO: add an automatic scroll or transition, so that when an individual related product is clicked, it shows up or scrolls up to the top of the screen.
 
 const RelatedProducts = ({ category, subCategory, id }) => {
   const { products } = useContext(ShopContext);
@@ -29,13 +28,15 @@ const RelatedProducts = ({ category, subCategory, id }) => {
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
         {related.map((item, index) => (
-          <ProductItem
-            key={index}
-            id={item._id}
-            name={item.name}
-            price={item.price}
-            image={item.image}
-          />
+          <div>
+            <ProductItem
+              key={index}
+              id={item._id}
+              name={item.name}
+              price={item.price}
+              image={item.image}
+            />
+          </div>
         ))}
       </div>
     </div>

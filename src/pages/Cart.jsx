@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../context/ShopContext";
-import { IoCloseOutline } from "react-icons/io5";
 import CartTotal from "../components/CartTotal.jsx";
 
 const Cart = () => {
