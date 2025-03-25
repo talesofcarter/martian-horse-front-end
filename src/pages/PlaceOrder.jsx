@@ -72,7 +72,8 @@ const PlaceOrder = () => {
             { headers: { token } }
           );
 
-          console.log(response.data);
+          console.log(orderData);
+          console.log(response.data.message);
           if (response.data.success) {
             toast.success(response.data.message);
             setCartItems({});

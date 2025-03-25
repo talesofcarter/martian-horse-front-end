@@ -3,7 +3,7 @@ import { ShopContext } from "../context/ShopContext";
 import CartTotal from "../components/CartTotal.jsx";
 
 const Cart = () => {
-  const { products, currency, cartItems, updateQuantity } =
+  const { products, currency, cartItems, updateQuantity, navigate } =
     useContext(ShopContext);
   const [cartData, setCartData] = useState([]);
 
@@ -49,7 +49,7 @@ const Cart = () => {
                 >
                   <div className="flex items-start gap-6">
                     <img
-                      className="w-16 sm:w-20"
+                      className="w-16 sm:w-20 rounded-md"
                       src={productData.image[0]}
                       alt={productData.name}
                     />

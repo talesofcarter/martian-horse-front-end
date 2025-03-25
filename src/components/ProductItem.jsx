@@ -34,10 +34,15 @@ const ProductItem = ({ id, image, name, price }) => {
       </div>
 
       {/* Product Details */}
-      <div className="mt-2 space-y-1">
-        <p className="text-sm">{name}</p>
-        <p className="text-sm font-medium">
-          {currency} {Number(price).toLocaleString("en-US")}
+      <div className="mt-3 px-4 py-4 bg-white border border-gray-100 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md">
+        <h3 className="text-base text-black font-medium tracking-wide leading-tight truncate">
+          {name}
+        </h3>
+        <p className="text-sm  font-semibold text-black mt-1">
+          {currency}{" "}
+          <span className="text-black text-base">
+            {Number(price).toLocaleString("en-US")}
+          </span>
         </p>
       </div>
     </Link>
