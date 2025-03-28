@@ -8,7 +8,6 @@ export const ShopContext = createContext();
 
 const ShopContextProvider = (props) => {
   const currency = "KES";
-  const delivery_fee = 10;
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
@@ -56,7 +55,6 @@ const ShopContextProvider = (props) => {
           { itemId, size },
           { headers: { token } }
         );
-        console.log("Backend URL:", backendUrl);
       } catch (error) {
         console.log(error);
         toast.error(error.message);
@@ -85,7 +83,6 @@ const ShopContextProvider = (props) => {
 
     if (quantity === 0) {
       delete cartData[itemId][size];
-
       if (Object.keys(cartData[itemId]).length === 0) {
         delete cartData[itemId];
       }
@@ -121,23 +118,27 @@ const ShopContextProvider = (props) => {
 
     for (const productId in cartItems) {
       const itemInfo = products.find((product) => product._id === productId);
-      if (!itemInfo) continue; // Skip if product not found
+      if (!itemInfo) continue;
 
       const variants = cartItems[productId];
       for (const variant in variants) {
         const quantity = variants[variant];
         if (quantity > 0) {
-          totalAmount += itemInfo.price * quantity; // Fix: Accumulate instead of overwrite
+          totalAmount += itemInfo.price * quantity;
         }
       }
     }
     return totalAmount;
   };
 
+  const getDeliveryFee = () => {
+    const cartTotal = getCartAmount();
+    return cartTotal >= 5000 ? 100 : 250;
+  };
+
   const getProductsData = async () => {
     try {
       const response = await axios.get(backendUrl + "/api/product/list");
-
       if (response.data.success) {
         setProducts(response.data.products);
       } else {
@@ -179,7 +180,7 @@ const ShopContextProvider = (props) => {
   const value = {
     products,
     currency,
-    delivery_fee,
+    delivery_fee: getDeliveryFee(),
     search,
     setSearch,
     showSearch,

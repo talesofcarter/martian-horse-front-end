@@ -83,6 +83,21 @@ const PlaceOrder = () => {
           }
           break;
 
+        case "mpesa":
+          const responseMpesa = await axios.post(
+            `${backendUrl}/api/order/mpesa`,
+            orderData,
+            { headers: { token } }
+          );
+
+          if (responseMpesa.data.success) {
+            toast.success(responseMpesa.data.message);
+            setTimeout(() => navigate("/orders"), 5000);
+          } else {
+            toast.error(responseMpesa.data.message);
+          }
+          break;
+
         default:
           break;
       }

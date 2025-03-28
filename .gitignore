@@ -37,3 +37,9 @@ dist-ssr
 *.mp4
 *.mov
 *.avi
+
+# Images
+
+*.png
+*.jpg
+*.jpeg
