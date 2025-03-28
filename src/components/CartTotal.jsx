@@ -57,7 +57,10 @@ const CartTotal = () => {
         </button>
 
         <div className="text-center">
-          <button className="text-[16px] hover:text-chocolateBrown hover:underline cursor-pointer">
+          <button
+            onClick={() => navigate("/shop")}
+            className="text-[16px] hover:text-chocolateBrown hover:underline cursor-pointer"
+          >
             Continue Shopping
           </button>
         </div>
