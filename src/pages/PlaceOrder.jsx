@@ -63,8 +63,23 @@ const PlaceOrder = () => {
         amount: getCartAmount() + delivery_fee,
       };
 
+      const clearCart = async () => {
+        setCartItems({}); // Clear local state
+        if (token) {
+          // Clear server-side cart (middleware handles userId)
+          const response = await axios.post(
+            `${backendUrl}/api/cart/clear`,
+            {}, // No body needed, middleware sets userId
+            { headers: { token } }
+          );
+          if (!response.data.success) {
+            console.log("Failed to clear cart:", response.data.message);
+            toast.error("Failed to clear cart on server");
+          }
+        }
+      };
+
       switch (method) {
-        // API calls for COD
         case "COD":
           const response = await axios.post(
             backendUrl + "/api/order/place",
@@ -72,11 +87,9 @@ const PlaceOrder = () => {
             { headers: { token } }
           );
 
-          console.log(orderData);
-          console.log(response.data.message);
           if (response.data.success) {
             toast.success(response.data.message);
-            setCartItems({});
+            await clearCart(); // Clear cart after success
             navigate("/orders");
           } else {
             toast.error(response.data.message);
@@ -92,6 +105,7 @@ const PlaceOrder = () => {
 
           if (responseMpesa.data.success) {
             toast.success(responseMpesa.data.message);
+            await clearCart(); // Clear cart after success
             setTimeout(() => navigate("/orders"), 5000);
           } else {
             toast.error(responseMpesa.data.message);

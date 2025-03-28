@@ -4,7 +4,7 @@ import CartTotal from "../components/CartTotal.jsx";
 import EmptyCart from "../components/EmptyCart.jsx";
 
 const Cart = () => {
-  const { products, currency, cartItems, updateQuantity, navigate } =
+  const { products, currency, cartItems, updateQuantity } =
     useContext(ShopContext);
   const [cartData, setCartData] = useState([]);
 
