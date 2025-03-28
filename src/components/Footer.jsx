@@ -36,7 +36,7 @@ function Footer() {
   ));
 
   return (
-    <footer className="bg-black text-white">
+    <footer className="bg-gradient-to-br from-martianRed to-darkRed text-white">
       {/* Main Footer Content */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
         {/* About Us */}
@@ -78,9 +78,9 @@ function Footer() {
       </div>
 
       {/* Footer Bottom */}
-      <div className="bg-black py-4">
+      <div className=" py-4">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <hr className="border-gray-700 mb-4" />
+          <hr className="border-white/50 mb-4" />
           <p className="text-center text-sm">
             Copyright {getDate()} © Martian Horse - All Rights Reserved
           </p>

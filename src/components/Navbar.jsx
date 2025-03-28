@@ -106,7 +106,7 @@ const Navbar = () => {
       <div
         className={`fixed z-[1000] top-0 left-0 h-screen bg-gradient-to-br from-martianRed to-darkRed shadow-lg transform transition-transform duration-300 ease-in-out ${
           visible ? "translate-x-0" : "-translate-x-full"
-        } w-1/2`}
+        } w-3/4`}
       >
         <div className="flex flex-col h-full text-gray-100">
           {/* Header with Back Button */}
@@ -176,7 +176,7 @@ const Navbar = () => {
 
           {/* Footer */}
           <div className="p-4 border-t border-gray-400/30">
-            <p className="text-sm text-gray-300">© 2025 Your Store</p>
+            <p className="text-sm text-gray-300">© 2025 Martian Horse</p>
           </div>
         </div>
       </div>
