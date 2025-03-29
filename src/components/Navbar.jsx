@@ -89,7 +89,7 @@ const Navbar = () => {
           )}
         </div>
         <Link to="/cart" className="relative">
-          <HiOutlineShoppingBag className="w-5.5 h-5.5" />
+          <HiOutlineShoppingBag className="w-5.5 h-5.5 cursor-pointer hover:text-chocolateBrown transition-all duration-500 ease-linear" />
           {counter >= 1 && (
             <p className="absolute right-[-5px] top-[9px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[10px]">
               {getCartCount()}

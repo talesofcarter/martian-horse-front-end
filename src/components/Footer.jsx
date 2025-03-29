@@ -36,7 +36,7 @@ function Footer() {
   ));
 
   return (
-    <footer className="bg-gradient-to-br from-martianRed to-darkRed text-white">
+    <footer className="bg-black text-white">
       {/* Main Footer Content */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
         {/* About Us */}

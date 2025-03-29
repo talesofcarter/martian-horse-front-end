@@ -39,6 +39,15 @@ const PlaceOrder = () => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+
+    // Validate phone number for M-Pesa
+    if (method === "mpesa" && !formData.phone.match(/^0\d{9}$|^254\d{9}$/)) {
+      toast.error(
+        "Please enter a valid phone number (e.g., 07XXXXXXXX or 2547XXXXXXXX)"
+      );
+      return;
+    }
+
     try {
       let orderItems = [];
 
@@ -242,7 +251,7 @@ const PlaceOrder = () => {
                   name="phone"
                   value={formData.phone}
                   className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
-                  type="number"
+                  type="tel"
                   placeholder="Phone"
                   required
                 />
