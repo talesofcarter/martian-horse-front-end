@@ -1,5 +1,5 @@
 // PlaceOrder.jsx
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { ShopContext } from "../context/ShopContext";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -29,6 +29,9 @@ const PlaceOrder = () => {
     country: "",
     phone: "",
   });
+
+  const [transactionStatus, setTransactionStatus] = useState(null);
+  const [orderId, setOrderId] = useState(null);
 
   const onChangeHandler = (e) => {
     const name = e.target.name;
@@ -114,8 +117,10 @@ const PlaceOrder = () => {
 
           if (responseMpesa.data.success) {
             toast.success(responseMpesa.data.message);
+            setOrderId(responseMpesa.data.orderId);
+            setTransactionStatus("pending");
             await clearCart(); // Clear cart after success
-            setTimeout(() => navigate("/orders"), 5000);
+            //setTimeout(() => navigate("/orders"), 5000);
           } else {
             toast.error(responseMpesa.data.message);
           }
@@ -130,278 +135,413 @@ const PlaceOrder = () => {
     }
   };
 
+  // Polling effect to check transaction status
+  useEffect(() => {
+    let interval;
+    if (orderId && transactionStatus === "pending") {
+      interval = setInterval(async () => {
+        try {
+          const response = await axios.get(
+            `${backendUrl}/api/order/status/${orderId}`,
+            {
+              headers: { token },
+            }
+          );
+          if (response.data.success) {
+            setTransactionStatus(response.data.paymentStatus);
+            if (response.data.paymentStatus === "completed") {
+              await new Promise((resolve) => setTimeout(resolve, 2000)); // Brief delay for UX
+              setCartItems({});
+              navigate("/orders");
+            } else if (
+              response.data.paymentStatus === "cancelled" ||
+              response.data.paymentStatus === "timeout" ||
+              response.data.paymentStatus === "failed"
+            ) {
+              setOrderId(null); // Stop polling on failure
+            }
+          }
+        } catch (error) {
+          console.log("Error polling order status:", error);
+          setTransactionStatus("error");
+        }
+      }, 3000); // Poll every 3 seconds
+    }
+    return () => clearInterval(interval); // Cleanup on unmount or status change
+  }, [orderId, transactionStatus, backendUrl, token, navigate, setCartItems]);
+
   return (
-    <form
-      onSubmit={onSubmitHandler}
-      className="container mx-auto px-4 py-8 md:py-12 max-w-7xl"
-    >
-      <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-8">
-        Checkout
-      </h1>
-      <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Billing Information Section */}
-        <section className="lg:col-span-2">
-          <div className="bg-white rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-700 mb-6">
-              Billing Information
-            </h2>
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <input
-                    onChange={onChangeHandler}
-                    name="firstName"
-                    value={formData.firstName}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
-                    type="text"
-                    placeholder="First Name *"
-                    required
-                  />
-                </div>
-                <div>
-                  <input
-                    onChange={onChangeHandler}
-                    name="lastName"
-                    value={formData.lastName}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
-                    type="text"
-                    placeholder="Last Name *"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div>
-                <input
-                  onChange={onChangeHandler}
-                  name="email"
-                  value={formData.email}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
-                  type="email"
-                  placeholder="Email Address *"
-                  required
-                />
-              </div>
-
-              <div>
-                <input
-                  onChange={onChangeHandler}
-                  name="street"
-                  value={formData.street}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
-                  type="text"
-                  placeholder="Street Address *"
-                  required
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <input
-                    onChange={onChangeHandler}
-                    name="city"
-                    value={formData.city}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
-                    type="text"
-                    placeholder="City"
-                    required
-                  />
-                </div>
-                <div>
-                  <input
-                    onChange={onChangeHandler}
-                    name="county"
-                    value={formData.county}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
-                    type="text"
-                    placeholder="County / Province"
-                    required
-                  />
-                </div>
-              </div>
-
-              <fieldset className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <input
-                    onChange={onChangeHandler}
-                    name="postalcode"
-                    value={formData.postalcode}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
-                    type="number"
-                    placeholder="Postal / ZIP Code"
-                    required
-                  />
-                </div>
-                <div>
-                  <input
-                    onChange={onChangeHandler}
-                    name="country"
-                    value={formData.country}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
-                    type="text"
-                    placeholder="Country"
-                    required
-                  />
-                </div>
-              </fieldset>
-
-              <div>
-                <input
-                  onChange={onChangeHandler}
-                  name="phone"
-                  value={formData.phone}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
-                  type="tel"
-                  placeholder="Phone"
-                  required
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Order Summary Section */}
-        <section className="lg:col-span-1">
-          <section className="bg-lightGray border border-gray-300 rounded p-6 sticky top-4">
-            <h2 className="text-xl font-semibold text-gray-700 mb-6">
-              Order Summary
-            </h2>
-
-            <div className="space-y-4 text-gray-600">
-              <div className="flex justify-between">
-                <span className="text-base">Subtotal</span>
-                <span className="text-base">
-                  {currency}{" "}
-                  {getCartAmount().toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
-                </span>
-              </div>
-
-              <hr className="border-gray-200" />
-
-              <div className="flex justify-between">
-                <span className="text-base">Shipping</span>
-                <span className="text-base">
-                  {currency}{" "}
-                  {delivery_fee.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
-                </span>
-              </div>
-
-              <hr className="border-gray-200" />
-
-              <div className="flex justify-between font-semibold text-gray-800">
-                <span className="text-base">Total</span>
-                <span className="text-base">
-                  {currency}{" "}
-                  {(getCartAmount() === 0
-                    ? 0
-                    : getCartAmount() + delivery_fee
-                  ).toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
-                </span>
-              </div>
-            </div>
-
-            <div className="mt-6 space-y-4">
+    <div className="relative">
+      <form
+        onSubmit={onSubmitHandler}
+        className="container mx-auto px-4 py-8 md:py-12 max-w-7xl"
+      >
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-8">
+          Checkout
+        </h1>
+        <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Billing Information Section */}
+          <section className="lg:col-span-2">
+            <div className="bg-white rounded-lg p-6">
+              <h2 className="text-xl font-semibold text-gray-700 mb-6">
+                Billing Information
+              </h2>
               <div className="space-y-4">
-                <h3 className="text-lg font-medium text-gray-700">
-                  Payment Method
-                </h3>
-                <div className="space-y-3">
-                  <div
-                    onClick={() => setMethod("mpesa")}
-                    className="flex items-center gap-3 p-3 border border-gray-200 rounded-md hover:bg-gray-50 cursor-pointer transition-colors duration-200"
-                  >
-                    <div
-                      className={`w-5 h-5 border rounded-full flex items-center justify-center ${
-                        method === "mpesa"
-                          ? "border-black bg-black"
-                          : "border-gray-300"
-                      }`}
-                    >
-                      {method === "mpesa" && (
-                        <div className="w-2.5 h-2.5 bg-white rounded-full" />
-                      )}
-                    </div>
-                    <img
-                      className="h-8 object-contain"
-                      src="/images/mpesa-logo.png"
-                      alt="M-Pesa"
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <input
+                      onChange={onChangeHandler}
+                      name="firstName"
+                      value={formData.firstName}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
+                      type="text"
+                      placeholder="First Name *"
+                      required
                     />
                   </div>
-
-                  <div
-                    onClick={() => setMethod("airtelmoney")}
-                    className="flex items-center gap-3 p-3 border border-gray-200 rounded-md hover:bg-gray-50 cursor-pointer transition-colors duration-200"
-                  >
-                    <div
-                      className={`w-5 h-5 border rounded-full flex items-center justify-center ${
-                        method === "airtelmoney"
-                          ? "border-black bg-black"
-                          : "border-gray-300"
-                      }`}
-                    >
-                      {method === "airtelmoney" && (
-                        <div className="w-2.5 h-2.5 bg-white rounded-full" />
-                      )}
-                    </div>
-                    <img
-                      className="h-8 object-contain"
-                      src="/images/airtelmoney.svg"
-                      alt="Airtel Money"
+                  <div>
+                    <input
+                      onChange={onChangeHandler}
+                      name="lastName"
+                      value={formData.lastName}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
+                      type="text"
+                      placeholder="Last Name *"
+                      required
                     />
-                  </div>
-
-                  <div
-                    onClick={() => setMethod("COD")}
-                    className="flex items-center gap-3 p-3 border border-gray-200 rounded-md hover:bg-gray-50 cursor-pointer transition-colors duration-200"
-                  >
-                    <div
-                      className={`w-5 h-5 border rounded-full flex items-center justify-center ${
-                        method === "COD"
-                          ? "border-black bg-black"
-                          : "border-gray-300"
-                      }`}
-                    >
-                      {method === "COD" && (
-                        <div className="w-2.5 h-2.5 bg-white rounded-full" />
-                      )}
-                    </div>
-                    <span>Pay on Delivery</span>
                   </div>
                 </div>
+
+                <div>
+                  <input
+                    onChange={onChangeHandler}
+                    name="email"
+                    value={formData.email}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
+                    type="email"
+                    placeholder="Email Address *"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <input
+                    onChange={onChangeHandler}
+                    name="street"
+                    value={formData.street}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
+                    type="text"
+                    placeholder="Street Address *"
+                    required
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <input
+                      onChange={onChangeHandler}
+                      name="city"
+                      value={formData.city}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
+                      type="text"
+                      placeholder="City"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <input
+                      onChange={onChangeHandler}
+                      name="county"
+                      value={formData.county}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
+                      type="text"
+                      placeholder="County / Province"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <fieldset className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <input
+                      onChange={onChangeHandler}
+                      name="postalcode"
+                      value={formData.postalcode}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
+                      type="number"
+                      placeholder="Postal / ZIP Code"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <input
+                      onChange={onChangeHandler}
+                      name="country"
+                      value={formData.country}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
+                      type="text"
+                      placeholder="Country"
+                      required
+                    />
+                  </div>
+                </fieldset>
+
+                <div>
+                  <input
+                    onChange={onChangeHandler}
+                    name="phone"
+                    value={formData.phone}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
+                    type="tel"
+                    placeholder="Phone"
+                    required
+                  />
+                </div>
               </div>
-
-              <button
-                type="submit"
-                className="w-full bg-black text-white py-3 rounded-md hover:bg-opacity-90 transition-all duration-200 font-medium hover:bg-chocolateBrown cursor-pointer"
-              >
-                Place Order
-              </button>
-
-              <p className="text-xs text-gray-500 text-center">
-                Your personal data will be used to process your order and
-                support your experience throughout this website.
-              </p>
-
-              <button
-                onClick={() => navigate("/")}
-                className="w-full text-black hover:text-chocolateBrown text-sm hover:underline cursor-pointer"
-              >
-                Continue Shopping
-              </button>
             </div>
           </section>
+
+          {/* Order Summary Section */}
+          <section className="lg:col-span-1">
+            <section className="bg-lightGray border border-gray-300 rounded p-6 sticky top-4">
+              <h2 className="text-xl font-semibold text-gray-700 mb-6">
+                Order Summary
+              </h2>
+
+              <div className="space-y-4 text-gray-600">
+                <div className="flex justify-between">
+                  <span className="text-base">Subtotal</span>
+                  <span className="text-base">
+                    {currency}{" "}
+                    {getCartAmount().toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </span>
+                </div>
+
+                <hr className="border-gray-200" />
+
+                <div className="flex justify-between">
+                  <span className="text-base">Shipping</span>
+                  <span className="text-base">
+                    {currency}{" "}
+                    {delivery_fee.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </span>
+                </div>
+
+                <hr className="border-gray-200" />
+
+                <div className="flex justify-between font-semibold text-gray-800">
+                  <span className="text-base">Total</span>
+                  <span className="text-base">
+                    {currency}{" "}
+                    {(getCartAmount() === 0
+                      ? 0
+                      : getCartAmount() + delivery_fee
+                    ).toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </span>
+                </div>
+              </div>
+
+              <div className="mt-6 space-y-4">
+                <div className="space-y-4">
+                  <h3 className="text-lg font-medium text-gray-700">
+                    Payment Method
+                  </h3>
+                  <div className="space-y-3">
+                    <div
+                      onClick={() => setMethod("mpesa")}
+                      className="flex items-center gap-3 p-3 border border-gray-200 rounded-md hover:bg-gray-50 cursor-pointer transition-colors duration-200"
+                    >
+                      <div
+                        className={`w-5 h-5 border rounded-full flex items-center justify-center ${
+                          method === "mpesa"
+                            ? "border-black bg-black"
+                            : "border-gray-300"
+                        }`}
+                      >
+                        {method === "mpesa" && (
+                          <div className="w-2.5 h-2.5 bg-white rounded-full" />
+                        )}
+                      </div>
+                      <img
+                        className="h-8 object-contain"
+                        src="/images/mpesa-logo.png"
+                        alt="M-Pesa"
+                      />
+                    </div>
+
+                    <div
+                      onClick={() => setMethod("airtelmoney")}
+                      className="flex items-center gap-3 p-3 border border-gray-200 rounded-md hover:bg-gray-50 cursor-pointer transition-colors duration-200"
+                    >
+                      <div
+                        className={`w-5 h-5 border rounded-full flex items-center justify-center ${
+                          method === "airtelmoney"
+                            ? "border-black bg-black"
+                            : "border-gray-300"
+                        }`}
+                      >
+                        {method === "airtelmoney" && (
+                          <div className="w-2.5 h-2.5 bg-white rounded-full" />
+                        )}
+                      </div>
+                      <img
+                        className="h-8 object-contain"
+                        src="/images/airtelmoney.svg"
+                        alt="Airtel Money"
+                      />
+                    </div>
+
+                    <div
+                      onClick={() => setMethod("COD")}
+                      className="flex items-center gap-3 p-3 border border-gray-200 rounded-md hover:bg-gray-50 cursor-pointer transition-colors duration-200"
+                    >
+                      <div
+                        className={`w-5 h-5 border rounded-full flex items-center justify-center ${
+                          method === "COD"
+                            ? "border-black bg-black"
+                            : "border-gray-300"
+                        }`}
+                      >
+                        {method === "COD" && (
+                          <div className="w-2.5 h-2.5 bg-white rounded-full" />
+                        )}
+                      </div>
+                      <span>Pay on Delivery</span>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-black text-white py-3 rounded-md hover:bg-opacity-90 transition-all duration-200 font-medium hover:bg-chocolateBrown cursor-pointer"
+                >
+                  Place Order
+                </button>
+
+                <p className="text-xs text-gray-500 text-center">
+                  Your personal data will be used to process your order and
+                  support your experience throughout this website.
+                </p>
+
+                <button
+                  onClick={() => navigate("/")}
+                  className="w-full text-black hover:text-chocolateBrown text-sm hover:underline cursor-pointer"
+                >
+                  Continue Shopping
+                </button>
+              </div>
+            </section>
+          </section>
         </section>
-      </section>
-    </form>
+      </form>
+
+      {/* Transaction Status Overlay */}
+      {transactionStatus && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
+            {transactionStatus === "pending" && (
+              <>
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-chocolateBrown mx-auto mb-4"></div>
+                <p className="text-lg font-semibold text-gray-700">
+                  Processing your payment...
+                </p>
+                <p className="text-sm text-gray-500 mt-2">
+                  Please enter your M-Pesa PIN on your phone.
+                </p>
+              </>
+            )}
+            {transactionStatus === "completed" && (
+              <>
+                <div className="text-green-500 text-4xl mb-4">✔</div>
+                <p className="text-lg font-semibold text-gray-700">
+                  Payment Successful!
+                </p>
+                <p className="text-sm text-gray-500 mt-2">
+                  Redirecting to your orders...
+                </p>
+              </>
+            )}
+            {transactionStatus === "cancelled" && (
+              <>
+                <div className="text-red-500 text-4xl mb-4">✖</div>
+                <p className="text-lg font-semibold text-gray-700">
+                  Payment Cancelled
+                </p>
+                <p className="text-sm text-gray-500 mt-2">
+                  You cancelled the transaction.
+                </p>
+                <button
+                  onClick={() => setTransactionStatus(null)}
+                  className="mt-4 bg-chocolateBrown text-white py-2 px-4 rounded-md hover:bg-opacity-90"
+                >
+                  Try Again
+                </button>
+              </>
+            )}
+            {transactionStatus === "timeout" && (
+              <>
+                <div className="text-yellow-500 text-4xl mb-4">⏳</div>
+                <p className="text-lg font-semibold text-gray-700">
+                  Payment Timed Out
+                </p>
+                <p className="text-sm text-gray-500 mt-2">
+                  The transaction took too long.
+                </p>
+                <button
+                  onClick={() => setTransactionStatus(null)}
+                  className="mt-4 bg-chocolateBrown text-white py-2 px-4 rounded-md hover:bg-opacity-90"
+                >
+                  Try Again
+                </button>
+              </>
+            )}
+            {transactionStatus === "failed" && (
+              <>
+                <div className="text-red-500 text-4xl mb-4">✖</div>
+                <p className="text-lg font-semibold text-gray-700">
+                  Payment Failed
+                </p>
+                <p className="text-sm text-gray-500 mt-2">
+                  Something went wrong. Please try again.
+                </p>
+                <button
+                  onClick={() => setTransactionStatus(null)}
+                  className="mt-4 bg-chocolateBrown text-white py-2 px-4 rounded-md hover:bg-opacity-90"
+                >
+                  Try Again
+                </button>
+              </>
+            )}
+            {transactionStatus === "error" && (
+              <>
+                <div className="text-red-500 text-4xl mb-4">⚠</div>
+                <p className="text-lg font-semibold text-gray-700">
+                  Error Checking Status
+                </p>
+                <p className="text-sm text-gray-500 mt-2">
+                  Please check your connection and try again.
+                </p>
+                <button
+                  onClick={() => setTransactionStatus(null)}
+                  className="mt-4 bg-chocolateBrown text-white py-2 px-4 rounded-md hover:bg-opacity-90"
+                >
+                  Try Again
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

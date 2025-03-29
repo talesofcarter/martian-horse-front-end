@@ -45,61 +45,70 @@ const Orders = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-50 border-t border-gray-100 mb-20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         {/* Header */}
-        <header className="mb-8 text-center sm:text-left">
-          <h1 className="text-2xl sm:text-3xl font-semibold text-gray-800">
+        <header className="mb-10 text-center sm:text-left">
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">
             My Orders
           </h1>
-          <p className="mt-1 text-sm text-gray-600">
+          <p className="mt-2 text-base text-gray-500">
             Track and manage your recent purchases
           </p>
         </header>
 
         {/* Orders List */}
-        <div className="space-y-6">
+        <div className="space-y-8">
           {orderData.length > 0 ? (
             orderData.slice(0, 4).map((item, index) => (
               <div
-                key={item._id || index} // Use item._id if available, else index
-                className="bg-white border border-gray-200 rounded-xl shadow-sm p-4 sm:p-6 
-                          transition-shadow duration-300 hover:shadow-md"
+                key={item._id || index}
+                className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 
+                          transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
               >
-                <div className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-6">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-6">
                   {/* Product Image */}
-                  <div className="flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24">
+                  <div className="flex-shrink-0 w-24 h-24 sm:w-28 sm:h-28">
                     <img
-                      className="w-full h-full object-cover rounded-md border border-gray-100"
+                      className="w-full h-full object-cover rounded-lg border border-gray-100 shadow-sm"
                       src={item.image[0]}
                       alt={item.name}
                     />
                   </div>
 
                   {/* Product Details */}
-                  <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
-                      <h3 className="text-base sm:text-lg font-semibold text-gray-800 truncate">
+                      <h3 className="text-lg font-semibold text-gray-900 truncate">
                         {item.name}
                       </h3>
-                      <ul className="mt-2 space-y-1 text-sm text-zinc-800">
+                      <ul className="mt-3 space-y-2 text-sm text-gray-600">
                         <li>
-                          <span className="font-medium">Price:</span>{" "}
+                          <span className="font-medium text-gray-700">
+                            Price:
+                          </span>{" "}
                           {formatPrice(item.price)}
                         </li>
                         <li>
-                          <span className="font-medium">Quantity:</span>{" "}
+                          <span className="font-medium text-gray-700">
+                            Quantity:
+                          </span>{" "}
                           {item.quantity}
                         </li>
                         <li>
-                          <span className="font-medium">Size:</span> {item.size}
+                          <span className="font-medium text-gray-700">
+                            Size:
+                          </span>{" "}
+                          {item.size}
                         </li>
                       </ul>
                     </div>
                     <div>
-                      <ul className="mt-2 sm:mt-0 space-y-1 text-sm text-zinc-800">
+                      <ul className="mt-3 sm:mt-0 space-y-2 text-sm text-gray-600">
                         <li>
-                          <span className="font-medium">Date:</span>{" "}
+                          <span className="font-medium text-gray-700">
+                            Date:
+                          </span>{" "}
                           {new Date(item.date).toLocaleDateString("en-US", {
                             year: "numeric",
                             month: "short",
@@ -107,37 +116,51 @@ const Orders = () => {
                           })}
                         </li>
                         <li>
-                          <span className="font-medium">Payment Method:</span>{" "}
+                          <span className="font-medium text-gray-700">
+                            Payment Method:
+                          </span>{" "}
                           {item.paymentMethod}
                         </li>
                         <li>
-                          <span className="font-medium">Payment:</span>{" "}
-                          {item.payment ? "Paid" : "Pending"}
+                          <span className="font-medium text-gray-700">
+                            Payment:
+                          </span>{" "}
+                          <span
+                            className={`inline-block px-2 py-1 text-xs font-medium rounded-full ${
+                              item.payment
+                                ? "bg-green-100 text-green-800"
+                                : "bg-yellow-100 text-yellow-800"
+                            }`}
+                          >
+                            {item.payment ? "Paid" : "Pending"}
+                          </span>
                         </li>
                       </ul>
                     </div>
                   </div>
 
                   {/* Status and Action */}
-                  <div className="flex flex-col items-start sm:items-end gap-3">
+                  <div className="flex flex-col items-start sm:items-end gap-4">
                     <div className="flex items-center gap-2">
                       <span
-                        className={`w-2 h-2 rounded-full ${
+                        className={`w-3 h-3 rounded-full ${
                           item.status === "Delivered"
                             ? "bg-green-500"
+                            : item.status === "Shipped"
+                            ? "bg-blue-500"
                             : "bg-yellow-500"
                         }`}
                       ></span>
-                      <span className="text-sm font-medium text-gray-700">
+                      <span className="text-sm font-semibold text-gray-800">
                         {item.status}
                       </span>
                     </div>
                     <button
                       onClick={loadOrderData}
-                      className="w-full sm:w-auto px-4 py-2 bg-gray-800 text-white text-sm 
-                                font-medium rounded-md hover:bg-gray-700 
-                                focus:outline-none focus:ring-2 focus:ring-gray-500 
-                                focus:ring-offset-2 transition-colors duration-200 cursor-pointer"
+                      className="w-full sm:w-auto px-5 py-2.5 bg-black text-white text-sm cursor-pointer 
+                                font-semibold rounded-md hover:bg-opacity-90 
+                                focus:outline-none focus:ring-2 focus:ring-black
+                                focus:ring-offset-2 transition-all duration-200"
                     >
                       Track Order
                     </button>
@@ -146,13 +169,21 @@ const Orders = () => {
               </div>
             ))
           ) : (
-            <div className="text-center py-12">
-              <h3 className="text-lg font-medium text-gray-800">
+            <div className="text-center py-16 bg-white border border-gray-100 rounded-2xl shadow-sm">
+              <h3 className="text-xl font-semibold text-gray-900">
                 No Orders Yet
               </h3>
-              <p className="mt-2 text-sm text-gray-600">
+              <p className="mt-3 text-base text-gray-500">
                 When you place an order, it will appear here.
               </p>
+              <button
+                onClick={() => (window.location.href = "/")} // Assuming redirect to shop
+                className="mt-6 inline-block px-6 py-3 bg-chocolateBrown text-white text-sm 
+                          font-semibold rounded-full hover:bg-opacity-90 
+                          transition-all duration-200"
+              >
+                Start Shopping
+              </button>
             </div>
           )}
         </div>
