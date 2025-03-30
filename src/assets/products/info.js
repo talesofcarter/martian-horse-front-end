@@ -1,8 +1,8 @@
 export const links = [
-  { link: "Home" },
-  { link: "About Us" },
-  { link: "Delivery" },
-  { link: "Privacy Policy" },
+  { link: "Home", path: "/" },
+  { link: "About Us", path: "/orders" },
+  { link: "Delivery", path: "/order" },
+  { link: "Privacy Policy", path: "/order" },
 ];
 
 export const quickLinks = [

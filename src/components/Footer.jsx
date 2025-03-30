@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { links, quickLinks, socials, getDate } from "../assets/products/info";
+import { ShopContext } from "../context/ShopContext";
 
 function Footer() {
+  const { navigate } = useContext(ShopContext);
+
   const linkElement = links.map((url) => (
     <li key={url.link}>
       <a
-        href={url.link}
-        className="hover:text-gray-300 transition-colors duration-200"
+        className="hover:text-gray-300 transition-colors duration-200 cursor-pointer"
+        onClick={() => navigate(url.path)}
       >
         {url.link}
       </a>
