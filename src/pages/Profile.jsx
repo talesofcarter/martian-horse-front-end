@@ -22,7 +22,8 @@ const Profile = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { backendUrl } = useContext(ShopContext);
+  const { backendUrl, navigate, setToken, setCartItems } =
+    useContext(ShopContext);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -72,6 +73,13 @@ const Profile = () => {
         <p className="text-base text-red-600">Error: {error}</p>
       </div>
     );
+  }
+
+  function logOut() {
+    navigate("/login");
+    localStorage.removeItem("token");
+    setToken("");
+    setCartItems({});
   }
 
   return (
@@ -207,6 +215,7 @@ const Profile = () => {
               </li>
               <li>
                 <button
+                  onClick={logOut}
                   className="w-full px-4 py-2 text-base bg-black text-white font-medium rounded-md 
                             hover:bg-chocolateBrown transition-colors duration-200 ease-in-out cursor-pointer flex items-center justify-center"
                 >
