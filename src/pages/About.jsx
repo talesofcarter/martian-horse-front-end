@@ -2,7 +2,7 @@ import React from "react";
 import NewsLetterBox from "./../components/NewsLetterBox.jsx";
 const About = () => {
   return (
-    <section className="">
+    <section>
       {/* Header */}
       <header className="text-center pt-8 pb-12">
         <h1 className="text-2xl font-semibold text-gray-900 tracking-tight">

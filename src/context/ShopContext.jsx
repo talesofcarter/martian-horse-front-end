@@ -166,6 +166,26 @@ const ShopContextProvider = (props) => {
     }
   };
 
+  const clearCart = async () => {
+    setCartItems({});
+
+    if (token) {
+      try {
+        await axios.post(
+          `${backendUrl}/api/cart/clear`,
+          {},
+          { headers: { token } }
+        );
+        toast.success("Cart reset successfully");
+      } catch (error) {
+        console.log(error);
+        toast.error(error.message);
+      }
+    } else {
+      toast.success("Cart reset successfully");
+    }
+  };
+
   useEffect(() => {
     getProductsData();
   }, []);
@@ -196,6 +216,7 @@ const ShopContextProvider = (props) => {
     backendUrl,
     setToken,
     token,
+    clearCart,
   };
 
   return (

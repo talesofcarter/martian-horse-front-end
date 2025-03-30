@@ -2,13 +2,24 @@ import React, { useContext, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
 import { MdOutlineStarBorder, MdOutlineStar } from "react-icons/md";
-import { TiMinus, TiPlus } from "react-icons/ti";
+import { GoPlus } from "react-icons/go";
 import { ClipLoader } from "react-spinners"; // For loading state
 import RelatedProducts from "../components/RelatedProducts";
+import { BiMinus } from "react-icons/bi";
+import { FiTrash2 } from "react-icons/fi";
+import CartActions from "../components/CartActions";
 
 const Product = () => {
   const { productId } = useParams();
-  const { products, currency, addToCart } = useContext(ShopContext);
+  const {
+    products,
+    currency,
+    addToCart,
+    cartItems,
+    getCartCount,
+    updateQuantity,
+    clearCart,
+  } = useContext(ShopContext);
   const [productData, setProductData] = useState(null);
   const [image, setImage] = useState("");
   const [size, setSize] = useState("");
@@ -16,18 +27,49 @@ const Product = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("description");
 
+  const isInCart = cartItems[productId] && cartItems[productId][size];
+
+  const hasCartItems = getCartCount() > 0;
+
   useEffect(() => {
     const fetchProductData = () => {
       const product = products.find((item) => item._id === productId);
       if (product) {
         setProductData(product);
         setImage(product.image[0]);
+
+        if (cartItems[productId]) {
+          const sizesInCart = Object.keys(cartItems[productId]);
+          if (sizesInCart.length > 0) {
+            setSize(sizesInCart[0]);
+            setCount(cartItems[productId][sizesInCart[0]]);
+          }
+        }
       }
       setIsLoading(false);
     };
 
     fetchProductData();
-  }, [productId, products]);
+  }, [productId, products, cartItems]);
+
+  const handleQuantityChange = (newCount) => {
+    if (newCount < 1) return;
+    setCount(newCount);
+
+    if (isInCart) {
+      updateQuantity(productId, size, newCount);
+    }
+  };
+
+  const handleAddToCart = () => {
+    if (!size) {
+      toast.error("Select Product Size");
+      return;
+    }
+
+    addToCart(productId, size);
+    setCount(1);
+  };
 
   if (isLoading) {
     return (
@@ -109,27 +151,38 @@ const Product = () => {
 
           {/* Quantity and Add to Cart */}
           <div className="flex gap-4 mb-8">
-            <div className="flex items-center border border-gray-300 rounded-lg">
+            <div
+              className={`flex items-center border border-gray-300 rounded-lg w-[140px] ${
+                !isInCart ? "opacity-50 pointer-events-none" : ""
+              }`}
+            >
               <button
-                onClick={() => setCount((prev) => (prev > 1 ? prev - 1 : 1))}
+                onClick={() => handleQuantityChange(count - 1)}
                 className="px-4 py-2 hover:bg-gray-100 transition-all cursor-pointer"
+                disabled={!isInCart}
               >
-                <TiMinus />
+                <BiMinus />
               </button>
               <span className="px-4 py-2">{count}</span>
               <button
-                onClick={() => setCount((prev) => prev + 1)}
+                onClick={() => handleQuantityChange(count + 1)}
                 className="px-4 py-2 hover:bg-gray-100 transition-all cursor-pointer"
+                disabled={!isInCart}
               >
-                <TiPlus />
+                <GoPlus />
               </button>
             </div>
             <button
-              onClick={() => addToCart(productData._id, size)}
-              className="bg-black text-white px-8 py-3 rounded-lg hover:bg-gray-800 transition-all cursor-pointer"
+              onClick={handleAddToCart}
+              className={`px-8 py-3 rounded-lg transition-all cursor-pointer ${
+                isInCart
+                  ? "bg-gray-500 text-white hover:bg-gray-600"
+                  : "bg-black text-white hover:bg-gray-800"
+              }`}
             >
-              Add To Cart
+              {isInCart ? "Update Cart" : "Add to Cart"}
             </button>
+            {hasCartItems && <CartActions />}
           </div>
 
           <hr className="text-gray-500 my-8 sm:w-4/5" />

@@ -156,7 +156,7 @@ const Shop = () => {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t mb-20">
+    <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10  mb-20">
       {/* Filter Options */}
       <div className="min-w-60">
         <div className="flex items-center justify-between">

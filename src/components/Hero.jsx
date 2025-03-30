@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { FiArrowRightCircle, FiArrowLeftCircle } from "react-icons/fi";
 import gsap from "gsap";
 import { images } from "../assets/products/products";
+import { ShopContext } from "../context/ShopContext";
 
 const Hero = () => {
+  const { navigate } = useContext(ShopContext);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const imageRef = useRef(null); // For images
   const videoRef = useRef(null); // For video
@@ -66,7 +68,7 @@ const Hero = () => {
   }, [currentImageIndex]);
 
   return (
-    <section className="relative w-full h-[470px] overflow-hidden">
+    <section className="relative w-full h-[470px] overflow-hidden mt-10">
       {useVideo ? (
         <video
           ref={videoRef}
@@ -111,6 +113,7 @@ const Hero = () => {
       </button>
 
       <button
+        onClick={() => navigate("/shop")}
         ref={buttonRef}
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 bg-white bg-opacity-50 px-6 py-2 rounded cursor-pointer hover:bg-opacity-75 transition-all hover:bg-chocolateBrown hover:text-white duration-500"
       >

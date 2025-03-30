@@ -37,7 +37,7 @@ const Navbar = () => {
   }
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-sm flex items-center justify-between py-5 px-6 font-medium">
+    <header className="sticky top-0 z-50 bg-white shadow flex items-center justify-between py-5 px-10 font-medium">
       <span onClick={() => navigate("/")}>
         <img
           className="w-[110px] cursor-pointer"

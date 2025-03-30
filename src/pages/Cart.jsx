@@ -28,7 +28,7 @@ const Cart = () => {
 
   return (
     <section
-      className={`container mx-auto px-4 sm:py-14 py-6 border-t flex md:flex-row ${
+      className={`container mx-auto px-4 sm:py-14 py-6 flex md:flex-row ${
         cartData.length === 0
           ? "justify-center items-center"
           : "flex-col justify-center md:justify-between gap-8"
