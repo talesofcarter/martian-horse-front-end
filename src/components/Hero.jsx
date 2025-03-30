@@ -12,7 +12,7 @@ const Hero = () => {
   const textRef = useRef(null);
   const buttonRef = useRef(null);
 
-  // Toggle this to switch between image and video for testing
+  // Toggle to switch between image and video for testing
   const useVideo = true; // Set to false to use images
 
   const goToNextImage = () => {

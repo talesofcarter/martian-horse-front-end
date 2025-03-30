@@ -6,7 +6,6 @@ import { GoPlus } from "react-icons/go";
 import { ClipLoader } from "react-spinners"; // For loading state
 import RelatedProducts from "../components/RelatedProducts";
 import { BiMinus } from "react-icons/bi";
-import { FiTrash2 } from "react-icons/fi";
 import CartActions from "../components/CartActions";
 
 const Product = () => {

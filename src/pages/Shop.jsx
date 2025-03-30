@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { ShopContext } from "../context/ShopContext";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-
 import { motion, AnimatePresence } from "framer-motion";
 import Title from "../components/Title";
 import ProductItem from "../components/ProductItem";
@@ -13,7 +12,7 @@ const Shop = () => {
   const [openSubCategory, setOpenSubCategory] = useState(false);
   const [openSize, setOpenSize] = useState(false);
   const [openPrice, setOpenPrice] = useState(false);
-  const [filterProducts, setFilterProducts] = useState([]);
+  const [filterProducts, setFilterProducts] = useState(products || []);
 
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
@@ -59,7 +58,7 @@ const Shop = () => {
   }
 
   function applyFilter() {
-    let productsCopy = products.slice();
+    let productsCopy = [...products];
 
     if (showSearch && search) {
       productsCopy = productsCopy.filter((item) =>
@@ -68,9 +67,9 @@ const Shop = () => {
     }
 
     if (category.length > 0) {
-      productsCopy = productsCopy.filter((item) =>
-        category.includes(item.category)
-      );
+      productsCopy = productsCopy.filter((item) => {
+        return category.includes(item.category);
+      });
     }
 
     if (subCategory.length > 0) {
@@ -80,7 +79,9 @@ const Shop = () => {
     }
 
     if (size.length > 0) {
-      productsCopy = productsCopy.filter((item) => size.includes(item.size));
+      productsCopy = productsCopy.filter((item) =>
+        item.sizes.some((s) => size.includes(s))
+      );
     }
 
     if (price.length > 0) {
@@ -227,7 +228,7 @@ const Shop = () => {
                           className="custom-checkbox"
                           type="checkbox"
                           onChange={toggleCategory}
-                          value={`accessories`}
+                          value={`Accessories`}
                         />
                         Accessories
                       </p>
@@ -236,7 +237,7 @@ const Shop = () => {
                           className="custom-checkbox"
                           type="checkbox"
                           onChange={toggleCategory}
-                          value={`blouses`}
+                          value={`Blouses`}
                         />
                         Blouses
                       </p>
@@ -245,7 +246,7 @@ const Shop = () => {
                           className="custom-checkbox"
                           type="checkbox"
                           onChange={toggleCategory}
-                          value={`dresses`}
+                          value={`Dresses`}
                         />
                         Dresses
                       </p>
@@ -254,7 +255,7 @@ const Shop = () => {
                           className="custom-checkbox"
                           type="checkbox"
                           onChange={toggleCategory}
-                          value={`skirts`}
+                          value={`Skirts`}
                         />
                         Skirts
                       </p>
@@ -293,7 +294,7 @@ const Shop = () => {
                           className="custom-checkbox"
                           type="checkbox"
                           onChange={toggleSubCategory}
-                          value={`business`}
+                          value={`Business`}
                         />
                         Business
                       </p>
@@ -302,7 +303,7 @@ const Shop = () => {
                           className="custom-checkbox"
                           type="checkbox"
                           onChange={toggleSubCategory}
-                          value={`casual`}
+                          value={`Casual`}
                         />
                         Casual
                       </p>
@@ -311,7 +312,7 @@ const Shop = () => {
                           className="custom-checkbox"
                           type="checkbox"
                           onChange={toggleSubCategory}
-                          value={`vacation`}
+                          value={`Vacation`}
                         />
                         Vacation
                       </p>
