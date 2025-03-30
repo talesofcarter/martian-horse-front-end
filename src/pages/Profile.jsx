@@ -191,6 +191,7 @@ const Profile = () => {
             <ul className="mt-4 space-y-4">
               <li>
                 <button
+                  onClick={() => navigate("/orders")}
                   className="w-full text-left px-4 py-2 bg-gray-100 text-gray-800 text-base font-medium 
                             rounded-md hover:bg-gray-200 transition-colors duration-200 cursor-pointer flex items-center"
                 >
