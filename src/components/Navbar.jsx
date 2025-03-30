@@ -7,6 +7,14 @@ import { Link, NavLink } from "react-router-dom";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { useContext } from "react";
 import { ShopContext } from "../context/ShopContext";
+import {
+  IoHomeOutline,
+  IoStorefrontOutline,
+  IoMailOutline,
+  IoInformationCircleOutline,
+  IoCartOutline,
+  IoLogOutOutline,
+} from "react-icons/io5"; // New icons
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
@@ -29,7 +37,7 @@ const Navbar = () => {
   }
 
   return (
-    <header className="flex items-center justify-between py-5 font-medium">
+    <header className="sticky top-0 z-50 bg-white shadow-sm flex items-center justify-between py-5 px-6 font-medium">
       <span onClick={() => navigate("/")}>
         <img
           className="w-[110px] cursor-pointer"
@@ -39,32 +47,40 @@ const Navbar = () => {
       </span>
       <ul className="hidden sm:flex gap-5 text-[16px] text-gray-700">
         <NavLink to="/" className="flex flex-col items-center gap-1">
-          <p>Home</p>
+          <p className="transition-colors duration-200 hover:text-chocolateBrown">
+            Home
+          </p>
           <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
         </NavLink>
         <NavLink to="/shop" className="flex flex-col items-center gap-1">
-          <p>Shop</p>
+          <p className="transition-colors duration-200 hover:text-chocolateBrown">
+            Shop
+          </p>
           <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
         </NavLink>
         <NavLink to="/contact" className="flex flex-col items-center gap-1">
-          <p>Contact</p>
+          <p className="transition-colors duration-200 hover:text-chocolateBrown">
+            Contact
+          </p>
           <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
         </NavLink>
         <NavLink to="/about" className="flex flex-col items-center gap-1">
-          <p>About</p>
+          <p className="transition-colors duration-200 hover:text-chocolateBrown">
+            About
+          </p>
           <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
         </NavLink>
       </ul>
       <div className="flex items-center gap-6">
-        <div onClick={() => setShowSearch(true)}>
-          <RiSearchLine className="w-5.5 h-5.5 cursor-pointer hover:text-lightPink duration-500" />
+        <div className="hidden sm:block" onClick={() => setShowSearch(true)}>
+          <RiSearchLine className="w-5.5 h-5.5 cursor-pointer transition duration-200 ease-in-out hover:scale-110 hover:text-chocolateBrown" />
         </div>
-        <div className="group relative">
+        <div className="group relative hidden sm:block">
           <div onClick={() => (token ? null : navigate("/login"))}>
-            <BiUser className="w-6 h-6 text-gray-700 hover:text-lightPink transition-colors duration-300 cursor-pointer" />
+            <BiUser className="w-6 h-6 text-gray-700 transition duration-200 ease-in-out hover:scale-110 hover:text-chocolateBrown cursor-pointer" />
           </div>
           {token && (
-            <div className="absolute right-0 pt-3 hidden group-hover:block dropdown-menu z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out">
+            <div className="absolute right-0 pt-3 hidden group-hover:block dropdown-menu z-50 opacity-0 group-hover:opacity-100 -translate-y-2 group-hover:-translate-y-0 transition-all duration-200 ease-in-out">
               <div className="w-48 py-4 px-5 bg-white rounded-xl shadow-lg border border-gray-100 text-gray-700 flex flex-col gap-3">
                 <p
                   onClick={() => navigate("/profile")}
@@ -89,7 +105,7 @@ const Navbar = () => {
           )}
         </div>
         <Link to="/cart" className="relative">
-          <HiOutlineShoppingBag className="w-5.5 h-5.5 cursor-pointer hover:text-chocolateBrown transition-all duration-500 ease-linear" />
+          <HiOutlineShoppingBag className="w-5.5 h-5.5 cursor-pointer transition duration-200 ease-in-out hover:scale-110 hover:text-chocolateBrown" />
           {counter >= 1 && (
             <p className="absolute right-[-5px] top-[9px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[10px]">
               {getCartCount()}
@@ -109,79 +125,141 @@ const Navbar = () => {
         } w-3/4`}
       >
         <div className="flex flex-col h-full text-gray-100">
-          {/* Header with Back Button */}
+          {/* Header */}
           <div className="flex items-center justify-between p-4 bg-gradient-to-br from-martianRed to-darkRed border-b border-gray-400/30">
-            <span className="text-lg font-semibold text-white">Menu</span>
+            <span className="text-xl font-semibold text-white tracking-wide">
+              Menu
+            </span>
             <FaAngleLeft
               onClick={() => setVisible(false)}
               className="w-6 h-6 text-gray-200 cursor-pointer hover:text-white transition-colors duration-200"
             />
           </div>
-
-          {/* Navigation Links */}
-          <div className="flex-1 flex flex-col gap-2 p-4">
+          {/* Navigation */}
+          <div className="flex-1 flex flex-col gap-1 p-4">
             <NavLink
               onClick={() => setVisible(false)}
               to="/"
               className={({ isActive }) =>
-                `py-3 px-4 rounded-lg text-base font-medium transition-all duration-300 ${
+                `py-3 px-4 rounded-lg text-base font-medium transition-all duration-300 flex items-center gap-3 ${
                   isActive
                     ? "bg-white/10 text-white"
-                    : "text-gray-200 hover:bg-white/5 hover:text-white"
+                    : "text-gray-200 hover:bg-white/10 hover:text-white"
                 }`
               }
             >
+              <IoHomeOutline className="w-5 h-5" />
               Home
             </NavLink>
             <NavLink
               onClick={() => setVisible(false)}
               to="/shop"
               className={({ isActive }) =>
-                `py-3 px-4 rounded-lg text-base font-medium transition-all duration-300 ${
+                `py-3 px-4 rounded-lg text-base font-medium transition-all duration-300 flex items-center gap-3 ${
                   isActive
                     ? "bg-white/10 text-white"
-                    : "text-gray-200 hover:bg-white/5 hover:text-white"
+                    : "text-gray-200 hover:bg-white/10 hover:text-white"
                 }`
               }
             >
+              <IoStorefrontOutline className="w-5 h-5" />
               Shop
             </NavLink>
             <NavLink
               onClick={() => setVisible(false)}
               to="/contact"
               className={({ isActive }) =>
-                `py-3 px-4 rounded-lg text-base font-medium transition-all duration-300 ${
+                `py-3 px-4 rounded-lg text-base font-medium transition-all duration-300 flex items-center gap-3 ${
                   isActive
                     ? "bg-white/10 text-white"
-                    : "text-gray-200 hover:bg-white/5 hover:text-white"
+                    : "text-gray-200 hover:bg-white/10 hover:text-white"
                 }`
               }
             >
+              <IoMailOutline className="w-5 h-5" />
               Contact
             </NavLink>
             <NavLink
               onClick={() => setVisible(false)}
               to="/about"
               className={({ isActive }) =>
-                `py-3 px-4 rounded-lg text-base font-medium transition-all duration-300 ${
+                `py-3 px-4 rounded-lg text-base font-medium transition-all duration-300 flex items-center gap-3 ${
                   isActive
                     ? "bg-white/10 text-white"
-                    : "text-gray-200 hover:bg-white/5 hover:text-white"
+                    : "text-gray-200 hover:bg-white/10 hover:text-white"
                 }`
               }
             >
+              <IoInformationCircleOutline className="w-5 h-5" />
               About
             </NavLink>
+            <div
+              onClick={() => {
+                setShowSearch(true);
+                setVisible(false);
+              }}
+              className="py-3 px-4 rounded-lg text-base font-medium transition-all duration-300 text-gray-200 hover:bg-white/10 hover:text-white cursor-pointer flex items-center gap-3"
+            >
+              <RiSearchLine className="w-5 h-5" />
+              Search
+            </div>
+            <div className="py-3 px-4 rounded-lg text-base font-medium transition-all duration-300 text-gray-200 hover:bg-white/10 hover:text-white cursor-pointer flex items-center gap-3">
+              <BiUser className="w-5 h-5" />
+              {token ? (
+                <span
+                  onClick={() => {
+                    setVisible(false);
+                    navigate("/profile");
+                  }}
+                >
+                  Profile
+                </span>
+              ) : (
+                <span
+                  onClick={() => {
+                    setVisible(false);
+                    navigate("/login");
+                  }}
+                >
+                  Login
+                </span>
+              )}
+            </div>
+            {token && (
+              <>
+                <div
+                  onClick={() => {
+                    setVisible(false);
+                    navigate("/orders");
+                  }}
+                  className="py-3 px-4 rounded-lg text-base font-medium transition-all duration-300 text-gray-200 hover:bg-white/10 hover:text-white cursor-pointer flex items-center gap-3"
+                >
+                  <IoCartOutline className="w-5 h-5" />
+                  Orders
+                </div>
+                <div
+                  onClick={() => {
+                    logOut();
+                    setVisible(false);
+                  }}
+                  className="py-3 px-4 rounded-lg text-base font-medium transition-all duration-300 text-gray-200 hover:bg-white/10 hover:text-white cursor-pointer flex items-center gap-3"
+                >
+                  <IoLogOutOutline className="w-5 h-5" />
+                  Logout
+                </div>
+              </>
+            )}
           </div>
-
           {/* Footer */}
-          <div className="p-4 border-t border-gray-400/30">
-            <p className="text-sm text-gray-300">© 2025 Martian Horse</p>
+          <div className="p-4 border-t border-gray-400/30 bg-gradient-to-br from-martianRed to-darkRed/90">
+            <p className="text-sm text-gray-300 font-light">
+              © 2025 Martian Horse
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Overlay with blur effect */}
+      {/* Overlay */}
       {visible && (
         <div
           onClick={() => setVisible(false)}
