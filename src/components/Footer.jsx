@@ -1,6 +1,33 @@
 import React, { useState, useContext } from "react";
 import { links, quickLinks, socials, getDate } from "../assets/products/info";
 import { ShopContext } from "../context/ShopContext";
+import { FaInstagram, FaFacebook, FaWhatsapp } from "react-icons/fa";
+
+const socialsData = [
+  {
+    name: "instagram",
+    icon: <FaInstagram />,
+    link: "https://instagram.com/martianhorse",
+  },
+  {
+    name: "facebook",
+    icon: <FaFacebook />,
+    link: "https://facebook.com/martianhorse",
+  },
+  { name: "whatsapp", icon: <FaWhatsapp />, link: "https://wa.me/15551234567" },
+];
+
+const socialsList = socialsData.map(({ name, icon, link }) => (
+  <li
+    key={name}
+    className="flex items-center gap-2 cursor-pointer hover:text-gray-300 transition-colors duration-200"
+  >
+    <span className="text-xl">{icon}</span>
+    <a href={link} target="_blank" rel="noopener noreferrer">
+      {name}
+    </a>
+  </li>
+));
 
 function Footer() {
   const { navigate } = useContext(ShopContext);
@@ -21,17 +48,6 @@ function Footer() {
       <a
         onClick={() => navigate(url.path)}
         className="hover:text-gray-300 transition-colors duration-200 cursor-pointer"
-      >
-        {url.link}
-      </a>
-    </li>
-  ));
-
-  const socialsElement = socials.map((url) => (
-    <li key={url.link}>
-      <a
-        href={url.link}
-        className="hover:text-gray-300 transition-colors duration-200"
       >
         {url.link}
       </a>
@@ -76,7 +92,7 @@ function Footer() {
           <h3 className="text-xl font-semibold mb-4 tracking-wide">
             Follow Us
           </h3>
-          <ul className="space-y-2 text-base">{socialsElement}</ul>
+          <div className="space-y-2">{socialsList}</div>
         </div>
       </div>
 
