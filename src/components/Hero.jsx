@@ -69,23 +69,12 @@ const Hero = () => {
 
   return (
     <section className="relative w-full h-[470px] overflow-hidden mt-10">
-      {useVideo ? (
-        <video
-          ref={videoRef}
-          src="/reel/martian-horse-reel.mp4"
-          autoPlay
-          muted
-          loop
-          className="w-full h-full object-none"
-        />
-      ) : (
-        <img
-          ref={imageRef}
-          src={images[currentImageIndex]}
-          alt="Hero Image"
-          className="w-full h-full object-cover"
-        />
-      )}
+      <img
+        ref={imageRef}
+        src={images[currentImageIndex]}
+        alt="Hero Image"
+        className="w-full h-full object-cover"
+      />
 
       <div
         ref={textRef}
@@ -95,7 +84,6 @@ const Hero = () => {
           Introducing Martian Horse
         </h1>
       </div>
-
       <button
         onClick={goToPreviousImage}
         className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full hover:bg-opacity-75 transition"
@@ -111,7 +99,6 @@ const Hero = () => {
           size={32}
         />
       </button>
-
       <button
         onClick={() => navigate("/shop")}
         ref={buttonRef}
