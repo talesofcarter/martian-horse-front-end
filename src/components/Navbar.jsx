@@ -14,12 +14,11 @@ import {
   IoInformationCircleOutline,
   IoCartOutline,
   IoLogOutOutline,
-} from "react-icons/io5"; // New icons
+} from "react-icons/io5";
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
   const { counter } = useContext(ShopContext);
-
   const {
     setShowSearch,
     getCartCount,
@@ -37,15 +36,15 @@ const Navbar = () => {
   }
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow flex items-center justify-between py-5 px-10 font-medium">
+    <header className="sticky top-0 z-50 bg-white shadow flex items-center justify-between py-4 px-4 sm:px-6 md:px-10 font-medium">
       <span onClick={() => navigate("/")}>
         <img
-          className="w-[110px] cursor-pointer"
+          className="w-[100px] sm:w-[110px] cursor-pointer"
           src="/images/logo.png"
           alt="logo"
         />
       </span>
-      <ul className="hidden sm:flex gap-5 text-[16px] text-gray-700">
+      <ul className="hidden sm:flex gap-4 md:gap-5 text-[15px] md:text-[16px] text-gray-700">
         <NavLink to="/" className="flex flex-col items-center gap-1">
           <p className="transition-colors duration-200 hover:text-chocolateBrown">
             Home
@@ -71,9 +70,9 @@ const Navbar = () => {
           <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
         </NavLink>
       </ul>
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-4 sm:gap-6">
         <div className="hidden sm:block" onClick={() => setShowSearch(true)}>
-          <RiSearchLine className="w-5.5 h-5.5 cursor-pointer transition duration-200 ease-in-out hover:scale-110 hover:text-chocolateBrown" />
+          <RiSearchLine className="w-5 h-5 cursor-pointer transition duration-200 ease-in-out hover:scale-110 hover:text-chocolateBrown" />
         </div>
         <div className="group relative hidden sm:block">
           <div onClick={() => (token ? null : navigate("/login"))}>
@@ -105,7 +104,7 @@ const Navbar = () => {
           )}
         </div>
         <Link to="/cart" className="relative">
-          <HiOutlineShoppingBag className="w-5.5 h-5.5 cursor-pointer transition duration-200 ease-in-out hover:scale-110 hover:text-chocolateBrown" />
+          <HiOutlineShoppingBag className="w-5 h-5 cursor-pointer transition duration-200 ease-in-out hover:scale-110 hover:text-chocolateBrown" />
           {counter >= 1 && (
             <p className="absolute right-[-5px] top-[9px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[10px]">
               {getCartCount()}
@@ -114,7 +113,7 @@ const Navbar = () => {
         </Link>
         <BiMenuAltRight
           onClick={() => setVisible(true)}
-          className="w-7 h-7 cursor-pointer sm:hidden"
+          className="w-6 h-6 cursor-pointer sm:hidden"
         />
       </div>
 
@@ -122,75 +121,75 @@ const Navbar = () => {
       <div
         className={`fixed z-[1000] top-0 left-0 h-screen bg-gradient-to-br from-martianRed to-darkRed shadow-lg transform transition-transform duration-300 ease-in-out ${
           visible ? "translate-x-0" : "-translate-x-full"
-        } w-3/4`}
+        } w-3/4 max-w-[280px]`}
       >
         <div className="flex flex-col h-full text-gray-100">
           {/* Header */}
           <div className="flex items-center justify-between p-4 bg-gradient-to-br from-martianRed to-darkRed border-b border-gray-400/30">
-            <span className="text-xl font-semibold text-white tracking-wide">
+            <span className="text-lg font-semibold text-white tracking-wide">
               Menu
             </span>
             <FaAngleLeft
               onClick={() => setVisible(false)}
-              className="w-6 h-6 text-gray-200 cursor-pointer hover:text-white transition-colors duration-200"
+              className="w-5 h-5 text-gray-200 cursor-pointer hover:text-white transition-colors duration-200"
             />
           </div>
           {/* Navigation */}
-          <div className="flex-1 flex flex-col gap-1 p-4">
+          <div className="flex-1 flex flex-col gap-1 p-3">
             <NavLink
               onClick={() => setVisible(false)}
               to="/"
               className={({ isActive }) =>
-                `py-3 px-4 rounded-lg text-base font-medium transition-all duration-300 flex items-center gap-3 ${
+                `py-2 px-3 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
                   isActive
                     ? "bg-white/10 text-white"
                     : "text-gray-200 hover:bg-white/10 hover:text-white"
                 }`
               }
             >
-              <IoHomeOutline className="w-5 h-5" />
+              <IoHomeOutline className="w-4 h-4" />
               Home
             </NavLink>
             <NavLink
               onClick={() => setVisible(false)}
               to="/shop"
               className={({ isActive }) =>
-                `py-3 px-4 rounded-lg text-base font-medium transition-all duration-300 flex items-center gap-3 ${
+                `py-2 px-3 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
                   isActive
                     ? "bg-white/10 text-white"
                     : "text-gray-200 hover:bg-white/10 hover:text-white"
                 }`
               }
             >
-              <IoStorefrontOutline className="w-5 h-5" />
+              <IoStorefrontOutline className="w-4 h-4" />
               Shop
             </NavLink>
             <NavLink
               onClick={() => setVisible(false)}
               to="/contact"
               className={({ isActive }) =>
-                `py-3 px-4 rounded-lg text-base font-medium transition-all duration-300 flex items-center gap-3 ${
+                `py-2 px-3 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
                   isActive
                     ? "bg-white/10 text-white"
                     : "text-gray-200 hover:bg-white/10 hover:text-white"
                 }`
               }
             >
-              <IoMailOutline className="w-5 h-5" />
+              <IoMailOutline className="w-4 h-4" />
               Contact
             </NavLink>
             <NavLink
               onClick={() => setVisible(false)}
               to="/about"
               className={({ isActive }) =>
-                `py-3 px-4 rounded-lg text-base font-medium transition-all duration-300 flex items-center gap-3 ${
+                `py-2 px-3 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
                   isActive
                     ? "bg-white/10 text-white"
                     : "text-gray-200 hover:bg-white/10 hover:text-white"
                 }`
               }
             >
-              <IoInformationCircleOutline className="w-5 h-5" />
+              <IoInformationCircleOutline className="w-4 h-4" />
               About
             </NavLink>
             <div
@@ -198,13 +197,13 @@ const Navbar = () => {
                 setShowSearch(true);
                 setVisible(false);
               }}
-              className="py-3 px-4 rounded-lg text-base font-medium transition-all duration-300 text-gray-200 hover:bg-white/10 hover:text-white cursor-pointer flex items-center gap-3"
+              className="py-2 px-3 rounded-lg text-sm font-medium transition-all duration-300 text-gray-200 hover:bg-white/10 hover:text-white cursor-pointer flex items-center gap-2"
             >
-              <RiSearchLine className="w-5 h-5" />
+              <RiSearchLine className="w-4 h-4" />
               Search
             </div>
-            <div className="py-3 px-4 rounded-lg text-base font-medium transition-all duration-300 text-gray-200 hover:bg-white/10 hover:text-white cursor-pointer flex items-center gap-3">
-              <BiUser className="w-5 h-5" />
+            <div className="py-2 px-3 rounded-lg text-sm font-medium transition-all duration-300 text-gray-200 hover:bg-white/10 hover:text-white cursor-pointer flex items-center gap-2">
+              <BiUser className="w-4 h-4" />
               {token ? (
                 <span
                   onClick={() => {
@@ -232,9 +231,9 @@ const Navbar = () => {
                     setVisible(false);
                     navigate("/orders");
                   }}
-                  className="py-3 px-4 rounded-lg text-base font-medium transition-all duration-300 text-gray-200 hover:bg-white/10 hover:text-white cursor-pointer flex items-center gap-3"
+                  className="py-2 px-3 rounded-lg text-sm font-medium transition-all duration-300 text-gray-200 hover:bg-white/10 hover:text-white cursor-pointer flex items-center gap-2"
                 >
-                  <IoCartOutline className="w-5 h-5" />
+                  <IoCartOutline className="w-4 h-4" />
                   Orders
                 </div>
                 <div
@@ -242,17 +241,17 @@ const Navbar = () => {
                     logOut();
                     setVisible(false);
                   }}
-                  className="py-3 px-4 rounded-lg text-base font-medium transition-all duration-300 text-gray-200 hover:bg-white/10 hover:text-white cursor-pointer flex items-center gap-3"
+                  className="py-2 px-3 rounded-lg text-sm font-medium transition-all duration-300 text-gray-200 hover:bg-white/10 hover:text-white cursor-pointer flex items-center gap-2"
                 >
-                  <IoLogOutOutline className="w-5 h-5" />
+                  <IoLogOutOutline className="w-4 h-4" />
                   Logout
                 </div>
               </>
             )}
           </div>
           {/* Footer */}
-          <div className="p-4 border-t border-gray-400/30 bg-gradient-to-br from-martianRed to-darkRed/90">
-            <p className="text-sm text-gray-300 font-light">
+          <div className="p-3 border-t border-gray-400/30 bg-gradient-to-br from-martianRed to-darkRed/90">
+            <p className="text-xs text-gray-300 font-light">
               © 2025 Martian Horse
             </p>
           </div>
@@ -263,7 +262,7 @@ const Navbar = () => {
       {visible && (
         <div
           onClick={() => setVisible(false)}
-          className="fixed inset-0 bg-transparent bg-opacity-40 backdrop-blur-sm z-[999] sm:hidden transition-all duration-300"
+          className="fixed inset-0 bg-transparent backdrop-blur-2xl bg-opacity-50 z-[999] sm:hidden transition-all duration-300"
         />
       )}
     </header>
