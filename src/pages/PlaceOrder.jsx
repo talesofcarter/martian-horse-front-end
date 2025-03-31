@@ -1,4 +1,3 @@
-// PlaceOrder.jsx
 import React, { useState, useContext, useEffect } from "react";
 import { ShopContext } from "../context/ShopContext";
 import axios from "axios";
@@ -36,14 +35,12 @@ const PlaceOrder = () => {
   const onChangeHandler = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-
     setFormData((data) => ({ ...data, [name]: value }));
   };
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
 
-    // Validate phone number for M-Pesa
     if (method === "mpesa" && !formData.phone.match(/^0\d{9}$|^254\d{9}$/)) {
       toast.error(
         "Please enter a valid phone number (e.g., 07XXXXXXXX or 2547XXXXXXXX)"
@@ -53,7 +50,6 @@ const PlaceOrder = () => {
 
     try {
       let orderItems = [];
-
       for (const items in cartItems) {
         for (const item in cartItems[items]) {
           if (cartItems[items][item] > 0) {
@@ -76,12 +72,11 @@ const PlaceOrder = () => {
       };
 
       const clearCart = async () => {
-        setCartItems({}); // Clear local state
+        setCartItems({});
         if (token) {
-          // Clear server-side cart (middleware handles userId)
           const response = await axios.post(
             `${backendUrl}/api/cart/clear`,
-            {}, // No body needed, middleware sets userId
+            {},
             { headers: { token } }
           );
           if (!response.data.success) {
@@ -98,10 +93,9 @@ const PlaceOrder = () => {
             orderData,
             { headers: { token } }
           );
-
           if (response.data.success) {
             toast.success(response.data.message);
-            await clearCart(); // Clear cart after success
+            await clearCart();
             navigate("/orders");
           } else {
             toast.error(response.data.message);
@@ -114,13 +108,11 @@ const PlaceOrder = () => {
             orderData,
             { headers: { token } }
           );
-
           if (responseMpesa.data.success) {
             toast.success(responseMpesa.data.message);
             setOrderId(responseMpesa.data.orderId);
             setTransactionStatus("pending");
-            await clearCart(); // Clear cart after success
-            //setTimeout(() => navigate("/orders"), 5000);
+            await clearCart();
           } else {
             toast.error(responseMpesa.data.message);
           }
@@ -135,7 +127,6 @@ const PlaceOrder = () => {
     }
   };
 
-  // Polling effect to check transaction status
   useEffect(() => {
     let interval;
     if (orderId && transactionStatus === "pending") {
@@ -143,14 +134,12 @@ const PlaceOrder = () => {
         try {
           const response = await axios.get(
             `${backendUrl}/api/order/status/${orderId}`,
-            {
-              headers: { token },
-            }
+            { headers: { token } }
           );
           if (response.data.success) {
             setTransactionStatus(response.data.paymentStatus);
             if (response.data.paymentStatus === "completed") {
-              await new Promise((resolve) => setTimeout(resolve, 2000)); // Brief delay for UX
+              await new Promise((resolve) => setTimeout(resolve, 2000));
               setCartItems({});
               navigate("/orders");
             } else if (
@@ -158,16 +147,16 @@ const PlaceOrder = () => {
               response.data.paymentStatus === "timeout" ||
               response.data.paymentStatus === "failed"
             ) {
-              setOrderId(null); // Stop polling on failure
+              setOrderId(null);
             }
           }
         } catch (error) {
           console.log("Error polling order status:", error);
           setTransactionStatus("error");
         }
-      }, 3000); // Poll every 3 seconds
+      }, 3000);
     }
-    return () => clearInterval(interval); // Cleanup on unmount or status change
+    return () => clearInterval(interval);
   }, [orderId, transactionStatus, backendUrl, token, navigate, setCartItems]);
 
   return (
@@ -194,6 +183,13 @@ const PlaceOrder = () => {
                       name="firstName"
                       value={formData.firstName}
                       className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
+                      style={{
+                        WebkitAppearance: "none", // Remove iOS default styling
+                        MozAppearance: "none",
+                        appearance: "none",
+                        border: "1px solid #d1d5db", // Explicit border (gray-300)
+                        backgroundColor: "#ffffff", // Ensure white background
+                      }}
                       type="text"
                       placeholder="First Name *"
                       required
@@ -205,6 +201,13 @@ const PlaceOrder = () => {
                       name="lastName"
                       value={formData.lastName}
                       className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
+                      style={{
+                        WebkitAppearance: "none",
+                        MozAppearance: "none",
+                        appearance: "none",
+                        border: "1px solid #d1d5db",
+                        backgroundColor: "#ffffff",
+                      }}
                       type="text"
                       placeholder="Last Name *"
                       required
@@ -218,6 +221,13 @@ const PlaceOrder = () => {
                     name="email"
                     value={formData.email}
                     className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
+                    style={{
+                      WebkitAppearance: "none",
+                      MozAppearance: "none",
+                      appearance: "none",
+                      border: "1px solid #d1d5db",
+                      backgroundColor: "#ffffff",
+                    }}
                     type="email"
                     placeholder="Email Address *"
                     required
@@ -227,9 +237,16 @@ const PlaceOrder = () => {
                 <div>
                   <input
                     onChange={onChangeHandler}
-                    name="street"
+                    name="_ports"
                     value={formData.street}
                     className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
+                    style={{
+                      WebkitAppearance: "none",
+                      MozAppearance: "none",
+                      appearance: "none",
+                      border: "1px solid #d1d5db",
+                      backgroundColor: "#ffffff",
+                    }}
                     type="text"
                     placeholder="Street Address *"
                     required
@@ -243,6 +260,13 @@ const PlaceOrder = () => {
                       name="city"
                       value={formData.city}
                       className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
+                      style={{
+                        WebkitAppearance: "none",
+                        MozAppearance: "none",
+                        appearance: "none",
+                        border: "1px solid #d1d5db",
+                        backgroundColor: "#ffffff",
+                      }}
                       type="text"
                       placeholder="City"
                       required
@@ -254,6 +278,13 @@ const PlaceOrder = () => {
                       name="county"
                       value={formData.county}
                       className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
+                      style={{
+                        WebkitAppearance: "none",
+                        MozAppearance: "none",
+                        appearance: "none",
+                        border: "1px solid #d1d5db",
+                        backgroundColor: "#ffffff",
+                      }}
                       type="text"
                       placeholder="County / Province"
                       required
@@ -268,6 +299,13 @@ const PlaceOrder = () => {
                       name="postalcode"
                       value={formData.postalcode}
                       className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
+                      style={{
+                        WebkitAppearance: "none",
+                        MozAppearance: "none",
+                        appearance: "none",
+                        border: "1px solid #d1d5db",
+                        backgroundColor: "#ffffff",
+                      }}
                       type="number"
                       placeholder="Postal / ZIP Code"
                       required
@@ -279,6 +317,13 @@ const PlaceOrder = () => {
                       name="country"
                       value={formData.country}
                       className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
+                      style={{
+                        WebkitAppearance: "none",
+                        MozAppearance: "none",
+                        appearance: "none",
+                        border: "1px solid #d1d5db",
+                        backgroundColor: "#ffffff",
+                      }}
                       type="text"
                       placeholder="Country"
                       required
@@ -292,6 +337,13 @@ const PlaceOrder = () => {
                     name="phone"
                     value={formData.phone}
                     className="w-full px-4 py-2 border border-gray-300 rounded-md outline-0 focus:ring focus:ring-chocolateBrown focus:border-chocolateBrown transition-all duration-200"
+                    style={{
+                      WebkitAppearance: "none",
+                      MozAppearance: "none",
+                      appearance: "none",
+                      border: "1px solid #d1d5db",
+                      backgroundColor: "#ffffff",
+                    }}
                     type="tel"
                     placeholder="Phone"
                     required
@@ -303,7 +355,12 @@ const PlaceOrder = () => {
 
           {/* Order Summary Section */}
           <section className="lg:col-span-1">
-            <section className="bg-lightGray border border-gray-300 rounded p-6 sticky top-4">
+            <section
+              className="border border-gray-300 rounded p-6 sticky top-4"
+              style={{
+                backgroundColor: "#f7fafc", // Fallback for bg-lightGray (#f7fafc is Tailwind's lightGray)
+              }}
+            >
               <h2 className="text-xl font-semibold text-gray-700 mb-6">
                 Order Summary
               </h2>
@@ -423,6 +480,12 @@ const PlaceOrder = () => {
                 <button
                   type="submit"
                   className="w-full bg-black text-white py-3 rounded-md hover:bg-opacity-90 transition-all duration-200 font-medium hover:bg-chocolateBrown cursor-pointer"
+                  style={{
+                    backgroundColor: "#000000", // Fallback for bg-black
+                    transitionProperty: "background-color, opacity", // Explicit transitions
+                    transitionDuration: "200ms",
+                    transitionTimingFunction: "ease-in-out",
+                  }}
                 >
                   Place Order
                 </button>
@@ -446,7 +509,12 @@ const PlaceOrder = () => {
 
       {/* Transaction Status Overlay */}
       {transactionStatus && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div
+          className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50"
+          style={{
+            backgroundColor: "rgba(0, 0, 0, 0.5)", // Fallback for bg-black bg-opacity-50
+          }}
+        >
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
             {transactionStatus === "pending" && (
               <>
@@ -482,6 +550,9 @@ const PlaceOrder = () => {
                 <button
                   onClick={() => setTransactionStatus(null)}
                   className="mt-4 bg-chocolateBrown text-white py-2 px-4 rounded-md hover:bg-opacity-90"
+                  style={{
+                    backgroundColor: "#8b4513", // Fallback for chocolateBrown
+                  }}
                 >
                   Try Again
                 </button>
@@ -499,6 +570,9 @@ const PlaceOrder = () => {
                 <button
                   onClick={() => setTransactionStatus(null)}
                   className="mt-4 bg-chocolateBrown text-white py-2 px-4 rounded-md hover:bg-opacity-90"
+                  style={{
+                    backgroundColor: "#8b4513", // Fallback for chocolateBrown
+                  }}
                 >
                   Try Again
                 </button>
@@ -516,6 +590,9 @@ const PlaceOrder = () => {
                 <button
                   onClick={() => setTransactionStatus(null)}
                   className="mt-4 bg-chocolateBrown text-white py-2 px-4 rounded-md hover:bg-opacity-90"
+                  style={{
+                    backgroundColor: "#8b4513", // Fallback for chocolateBrown
+                  }}
                 >
                   Try Again
                 </button>
@@ -533,6 +610,9 @@ const PlaceOrder = () => {
                 <button
                   onClick={() => setTransactionStatus(null)}
                   className="mt-4 bg-chocolateBrown text-white py-2 px-4 rounded-md hover:bg-opacity-90"
+                  style={{
+                    backgroundColor: "#8b4513", // Fallback for chocolateBrown
+                  }}
                 >
                   Try Again
                 </button>
