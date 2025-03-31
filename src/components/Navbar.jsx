@@ -119,7 +119,7 @@ const Navbar = () => {
 
       {/* Sidebar menu for small screens */}
       <div
-        className={`fixed top-0 left-0 h-screen w-3/4 max-w-[280px] shadow-lg z-[1000] transform transition-transform duration-300 ease-in-out ${
+        className={`fixed text-white top-0 left-0 h-screen w-3/4 max-w-[280px] shadow-lg z-[1000] transform transition-transform duration-300 ease-in-out ${
           visible ? "translate-x-0" : "-translate-x-full"
         }`}
         style={{
