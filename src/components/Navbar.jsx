@@ -119,15 +119,16 @@ const Navbar = () => {
 
       {/* Sidebar menu for small screens */}
       <div
-        className={`fixed z-[1000] top-0 left-0 h-screen w-3/4 max-w-[280px] shadow-lg transform transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 h-screen w-3/4 max-w-[280px] shadow-lg z-[1000] transform transition-transform duration-300 ease-in-out ${
           visible ? "translate-x-0" : "-translate-x-full"
         }`}
         style={{
-          background: "linear-gradient(to bottom right, #ff4d4d, #8b0000)", // Fallback gradient
+          display: visible ? "block" : "none", // Explicitly hide when not visible
+          background: "linear-gradient(to bottom right, #ff4d4d, #8b0000)",
           background:
-            "-webkit-linear-gradient(to bottom right, #ff4d4d, #8b0000)", // iOS Safari
-          background: "-moz-linear-gradient(to bottom right, #ff4d4d, #8b0000)", // Firefox
-          background: "-o-linear-gradient(to bottom right, #ff4d4d, #8b0000)", // Opera
+            "-webkit-linear-gradient(to bottom right, #ff4d4d, #8b0000)",
+          background: "-moz-linear-gradient(to bottom right, #ff4d4d, #8b0000)",
+          background: "-o-linear-gradient(to bottom right, #ff4d4d, #8b0000)",
         }}
       >
         <div className="flex flex-col h-full text-gray-100">
@@ -293,9 +294,9 @@ const Navbar = () => {
           onClick={() => setVisible(false)}
           className="fixed inset-0 bg-opacity-50 z-[999] sm:hidden transition-all duration-300"
           style={{
-            background: "rgba(0, 0, 0, 0.5)", // Fallback for bg-opacity
-            backdropFilter: "blur(8px)", // Standard syntax (updated from 2xl)
-            WebkitBackdropFilter: "blur(8px)", // iOS Safari
+            background: "rgba(0, 0, 0, 0.5)",
+            backdropFilter: "blur(8px)",
+            WebkitBackdropFilter: "blur(8px)",
           }}
         />
       )}
