@@ -119,13 +119,31 @@ const Navbar = () => {
 
       {/* Sidebar menu for small screens */}
       <div
-        className={`fixed z-[1000] top-0 left-0 h-screen bg-gradient-to-br from-martianRed to-darkRed shadow-lg transform transition-transform duration-300 ease-in-out ${
+        className={`fixed z-[1000] top-0 left-0 h-screen w-3/4 max-w-[280px] shadow-lg transform transition-transform duration-300 ease-in-out ${
           visible ? "translate-x-0" : "-translate-x-full"
-        } w-3/4 max-w-[280px]`}
+        }`}
+        style={{
+          background: "linear-gradient(to bottom right, #ff4d4d, #8b0000)", // Fallback gradient
+          background:
+            "-webkit-linear-gradient(to bottom right, #ff4d4d, #8b0000)", // iOS Safari
+          background: "-moz-linear-gradient(to bottom right, #ff4d4d, #8b0000)", // Firefox
+          background: "-o-linear-gradient(to bottom right, #ff4d4d, #8b0000)", // Opera
+        }}
       >
         <div className="flex flex-col h-full text-gray-100">
           {/* Header */}
-          <div className="flex items-center justify-between p-4 bg-gradient-to-br from-martianRed to-darkRed border-b border-gray-400/30">
+          <div
+            className="flex items-center justify-between p-4 border-b border-gray-400/30"
+            style={{
+              background: "linear-gradient(to bottom right, #ff4d4d, #8b0000)",
+              background:
+                "-webkit-linear-gradient(to bottom right, #ff4d4d, #8b0000)",
+              background:
+                "-moz-linear-gradient(to bottom right, #ff4d4d, #8b0000)",
+              background:
+                "-o-linear-gradient(to bottom right, #ff4d4d, #8b0000)",
+            }}
+          >
             <span className="text-lg font-semibold text-white tracking-wide">
               Menu
             </span>
@@ -250,7 +268,18 @@ const Navbar = () => {
             )}
           </div>
           {/* Footer */}
-          <div className="p-3 border-t border-gray-400/30 bg-gradient-to-br from-martianRed to-darkRed/90">
+          <div
+            className="p-3 border-t border-gray-400/30"
+            style={{
+              background: "linear-gradient(to bottom right, #ff4d4d, #8b0000)",
+              background:
+                "-webkit-linear-gradient(to bottom right, #ff4d4d, #8b0000)",
+              background:
+                "-moz-linear-gradient(to bottom right, #ff4d4d, #8b0000)",
+              background:
+                "-o-linear-gradient(to bottom right, #ff4d4d, #8b0000)",
+            }}
+          >
             <p className="text-xs text-gray-300 font-light">
               © 2025 Martian Horse
             </p>
@@ -262,7 +291,12 @@ const Navbar = () => {
       {visible && (
         <div
           onClick={() => setVisible(false)}
-          className="fixed inset-0 bg-transparent backdrop-blur-2xl bg-opacity-50 z-[999] sm:hidden transition-all duration-300"
+          className="fixed inset-0 bg-opacity-50 z-[999] sm:hidden transition-all duration-300"
+          style={{
+            background: "rgba(0, 0, 0, 0.5)", // Fallback for bg-opacity
+            backdropFilter: "blur(8px)", // Standard syntax (updated from 2xl)
+            WebkitBackdropFilter: "blur(8px)", // iOS Safari
+          }}
         />
       )}
     </header>
