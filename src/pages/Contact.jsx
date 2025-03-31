@@ -82,12 +82,26 @@ const Contact = () => {
                   type="text"
                   placeholder="Name *"
                   className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-martianRed focus:border-transparent"
+                  style={{
+                    WebkitAppearance: "none", // Remove iOS default styling
+                    MozAppearance: "none",
+                    appearance: "none",
+                    border: "1px solid #d1d5db", // Explicit border (gray-300)
+                    backgroundColor: "#ffffff", // Ensure white background
+                  }}
                   required
                 />
                 <input
                   type="email"
                   placeholder="Email *"
                   className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-martianRed focus:border-transparent"
+                  style={{
+                    WebkitAppearance: "none",
+                    MozAppearance: "none",
+                    appearance: "none",
+                    border: "1px solid #d1d5db",
+                    backgroundColor: "#ffffff",
+                  }}
                   required
                 />
               </div>
@@ -95,16 +109,36 @@ const Contact = () => {
                 type="tel"
                 placeholder="Phone *"
                 className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-martianRed focus:border-transparent"
+                style={{
+                  WebkitAppearance: "none",
+                  MozAppearance: "none",
+                  appearance: "none",
+                  border: "1px solid #d1d5db",
+                  backgroundColor: "#ffffff",
+                }}
                 required
               />
               <textarea
                 placeholder="Your Message"
                 className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-martianRed focus:border-transparent h-32"
+                style={{
+                  WebkitAppearance: "none",
+                  MozAppearance: "none",
+                  appearance: "none",
+                  border: "1px solid #d1d5db",
+                  backgroundColor: "#ffffff",
+                }}
                 required
               ></textarea>
               <button
                 type="submit"
                 className="w-full bg-black text-white py-3 rounded-md hover:bg-martianRed transition-colors duration-300 font-medium cursor-pointer"
+                style={{
+                  backgroundColor: "#000000", // Fallback for bg-black
+                  transitionProperty: "background-color", // Explicit transition
+                  transitionDuration: "300ms",
+                  transitionTimingFunction: "ease-in-out",
+                }}
               >
                 Send Message
               </button>
