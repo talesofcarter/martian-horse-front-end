@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import { BiUser } from "react-icons/bi";
 import { BiMenuAltRight } from "react-icons/bi";
@@ -27,11 +27,6 @@ const Navbar = () => {
     setToken,
     setCartItems,
   } = useContext(ShopContext);
-
-  // Ensure sidebar is hidden on mount
-  useEffect(() => {
-    setVisible(false);
-  }, []);
 
   function logOut() {
     navigate("/login");
@@ -124,10 +119,9 @@ const Navbar = () => {
 
       {/* Sidebar menu for small screens */}
       <div
-        className={`fixed top-0 left-0 h-screen w-3/4 max-w-[280px] bg-gradient-to-br from-martianRed to-darkRed shadow-lg z-[1000] transition-opacity duration-300 ${
-          visible ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
-        style={{ display: visible ? "block" : "none" }}
+        className={`fixed z-[1000] top-0 left-0 h-screen bg-gradient-to-br from-martianRed to-darkRed shadow-lg transform transition-transform duration-300 ease-in-out ${
+          visible ? "translate-x-0" : "-translate-x-full"
+        } w-3/4 max-w-[280px]`}
       >
         <div className="flex flex-col h-full text-gray-100">
           {/* Header */}
@@ -268,7 +262,7 @@ const Navbar = () => {
       {visible && (
         <div
           onClick={() => setVisible(false)}
-          className="fixed inset-0 bg-gray-900 bg-opacity-50 z-[999] sm:hidden transition-opacity duration-300"
+          className="fixed inset-0 bg-transparent backdrop-blur-2xl bg-opacity-50 z-[999] sm:hidden transition-all duration-300"
         />
       )}
     </header>
