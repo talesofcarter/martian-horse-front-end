@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import { links, quickLinks, socials, getDate } from "../assets/products/info";
+import React, { useContext } from "react";
+import { links, quickLinks, getDate } from "../assets/products/info";
 import { ShopContext } from "../context/ShopContext";
 import { FaInstagram, FaFacebook, FaWhatsapp } from "react-icons/fa";
 
@@ -14,7 +14,11 @@ const socialsData = [
     icon: <FaFacebook />,
     link: "https://facebook.com/martianhorse",
   },
-  { name: "whatsapp", icon: <FaWhatsapp />, link: "https://wa.me/15551234567" },
+  {
+    name: "whatsapp",
+    icon: <FaWhatsapp />,
+    link: "https://wa.me/254710204446",
+  },
 ];
 
 const socialsList = socialsData.map(({ name, icon, link }) => (
@@ -66,10 +70,10 @@ function Footer() {
             stylish and high-quality women’s clothing.
           </p>
           <p className="text-base mb-2">
-            <span className="font-medium">E.</span> martianhorse@gmail.com
+            <span className="font-medium">E.</span> horsemartian8@gmail.com
           </p>
           <p className="text-base">
-            <span className="font-medium">T.</span> (254) 7001224
+            <span className="font-medium">T.</span> (254) 710204446
           </p>
         </div>
 

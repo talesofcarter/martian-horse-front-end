@@ -25,8 +25,8 @@ const Contact = () => {
               <h2 className="text-2xl font-semibold text-gray-800 mb-3">
                 Contact
               </h2>
-              <p className="text-gray-600">Phone: +(254)-721-869757</p>
-              <p className="text-gray-600">Email: martianhorse@gmail.com</p>
+              <p className="text-gray-600">Phone: +(254)-710-204446</p>
+              <p className="text-gray-600">Email: horsemartian8@gmail.com</p>
             </article>
 
             <article>
@@ -39,25 +39,26 @@ const Contact = () => {
 
             <article className="flex gap-6">
               <a
-                href="#"
+                href="https://facebook.com/martianhorse"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-gray-600 hover:text-blue-600 transition-colors text-2xl"
               >
                 <FaFacebookSquare />
               </a>
               <a
-                href="#"
+                href="https://instagram.com/martianhorse"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-gray-600 hover:text-pink-600 transition-colors text-2xl"
               >
                 <FaInstagram />
               </a>
+
               <a
-                href="#"
-                className="text-gray-600 hover:text-black transition-colors text-2xl"
-              >
-                <AiFillTikTok />
-              </a>
-              <a
-                href="#"
+                href="https://wa.me/254710204446"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-gray-600 hover:text-green-600 transition-colors text-2xl"
               >
                 <FaWhatsapp />
