@@ -15,6 +15,8 @@ import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
 import { ToastContainer, toast } from "react-toastify";
 import FreqAskedQues from "./components/FreqAskedQues";
+import TermsConditions from "./components/TermsConditions";
+import Privacy from "./components/Privacy";
 
 function App() {
   return (
@@ -35,6 +37,8 @@ function App() {
           <Route path="/orders" element={<Orders />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/faqs" element={<FreqAskedQues />} />
+          <Route path="/terms" element={<TermsConditions />} />
+          <Route path="/privacy" element={<Privacy />} />
         </Routes>
       </div>
       <Footer />

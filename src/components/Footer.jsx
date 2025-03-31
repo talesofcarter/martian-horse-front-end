@@ -19,8 +19,8 @@ function Footer() {
   const quickLinksElement = quickLinks.map((url) => (
     <li key={url.link}>
       <a
-        href={url.link}
-        className="hover:text-gray-300 transition-colors duration-200"
+        onClick={() => navigate(url.path)}
+        className="hover:text-gray-300 transition-colors duration-200 cursor-pointer"
       >
         {url.link}
       </a>
