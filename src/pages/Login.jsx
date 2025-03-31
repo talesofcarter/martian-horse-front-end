@@ -48,7 +48,7 @@ const Login = () => {
     if (token) {
       navigate("/");
     }
-  }, [token]);
+  }, [token, navigate]);
 
   return (
     <section className="min-h-screen flex items-center justify-center py-12">
@@ -81,6 +81,13 @@ const Login = () => {
                 type="text"
                 id="name"
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-gray-300 transition-all duration-300"
+                style={{
+                  WebkitAppearance: "none", // Remove iOS default styling
+                  MozAppearance: "none",
+                  appearance: "none",
+                  border: "1px solid #d1d5db", // Explicit border (gray-300)
+                  backgroundColor: "#ffffff", // Ensure white background
+                }}
                 placeholder="Your Name"
                 required
               />
@@ -96,6 +103,13 @@ const Login = () => {
               type="email"
               id="email"
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-gray-300 transition-all duration-300"
+              style={{
+                WebkitAppearance: "none",
+                MozAppearance: "none",
+                appearance: "none",
+                border: "1px solid #d1d5db",
+                backgroundColor: "#ffffff",
+              }}
               placeholder="Your Email"
               required
             />
@@ -110,6 +124,13 @@ const Login = () => {
               type="password"
               id="password"
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-gray-300 transition-all duration-300"
+              style={{
+                WebkitAppearance: "none",
+                MozAppearance: "none",
+                appearance: "none",
+                border: "1px solid #d1d5db",
+                backgroundColor: "#ffffff",
+              }}
               placeholder="Your Password"
               required
             />
@@ -147,6 +168,12 @@ const Login = () => {
         <button
           type="submit"
           className="w-full bg-black text-white px-8 py-3 rounded-lg hover:bg-chocolateBrown transition-all duration-300 font-medium cursor-pointer"
+          style={{
+            backgroundColor: "#000000", // Fallback for bg-black
+            transitionProperty: "background-color", // Explicit transition
+            transitionDuration: "300ms",
+            transitionTimingFunction: "ease-in-out",
+          }}
         >
           {currentState === "Login" ? "Sign In" : "Sign Up"}
         </button>
