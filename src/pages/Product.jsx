@@ -138,9 +138,13 @@ const Product = () => {
                   onClick={() => setSize(item)}
                   className={`px-6 py-2 border rounded-lg text-sm font-medium ${
                     size === item
-                      ? "bg-orange-500 text-white border-orange-500"
-                      : "bg-gray-100 border-gray-200 hover:bg-gray-200"
-                  } transition-all cursor-pointer`}
+                      ? "bg-orange-500 text-white border-2 border-orange-500"
+                      : "bg-gray-100 border-2 border-gray-200 hover:bg-gray-200"
+                  } transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-300`}
+                  style={{
+                    WebkitTapHighlightColor: "transparent",
+                    appearance: "none",
+                  }}
                 >
                   {item}
                 </button>
@@ -149,41 +153,47 @@ const Product = () => {
           </div>
 
           {/* Quantity and Add to Cart */}
-          <div className="flex gap-4 mb-8">
-            <div
-              className={`flex items-center border border-gray-300 rounded-lg w-[140px] ${
-                !isInCart ? "opacity-50 pointer-events-none" : ""
-              }`}
-            >
-              <button
-                onClick={() => handleQuantityChange(count - 1)}
-                className="px-4 py-2 hover:bg-gray-100 transition-all cursor-pointer"
-                disabled={!isInCart}
+          {/* Quantity and Add to Cart - Updated for responsive layout */}
+          <div className="flex flex-col sm:flex-row gap-4 mb-8">
+            <div className="flex gap-4">
+              <div
+                className={`flex items-center border border-gray-300 rounded-lg w-[140px] ${
+                  !isInCart ? "opacity-50 pointer-events-none" : ""
+                }`}
               >
-                <BiMinus />
-              </button>
-              <span className="px-4 py-2">{count}</span>
+                <button
+                  onClick={() => handleQuantityChange(count - 1)}
+                  className="px-4 py-2 hover:bg-gray-100 transition-all cursor-pointer"
+                  disabled={!isInCart}
+                >
+                  <BiMinus />
+                </button>
+                <span className="px-4 py-2">{count}</span>
+                <button
+                  onClick={() => handleQuantityChange(count + 1)}
+                  className="px-4 py-2 hover:bg-gray-100 transition-all cursor-pointer"
+                  disabled={!isInCart}
+                >
+                  <GoPlus />
+                </button>
+              </div>
               <button
-                onClick={() => handleQuantityChange(count + 1)}
-                className="px-4 py-2 hover:bg-gray-100 transition-all cursor-pointer"
-                disabled={!isInCart}
+                onClick={handleAddToCart}
+                className={`px-8 py-3 rounded-lg transition-all cursor-pointer ${
+                  isInCart
+                    ? "bg-gray-500 text-white hover:bg-gray-600"
+                    : "bg-black text-white hover:bg-gray-800"
+                }`}
               >
-                <GoPlus />
+                {isInCart ? "Update" : "Add to Cart"}
               </button>
             </div>
-            <button
-              onClick={handleAddToCart}
-              className={`px-8 py-3 rounded-lg transition-all cursor-pointer ${
-                isInCart
-                  ? "bg-gray-500 text-white hover:bg-gray-600"
-                  : "bg-black text-white hover:bg-gray-800"
-              }`}
-            >
-              {isInCart ? "Update Cart" : "Add to Cart"}
-            </button>
-            {hasCartItems && <CartActions />}
+            {hasCartItems && (
+              <div className="sm:ml-4">
+                <CartActions />
+              </div>
+            )}
           </div>
-
           <hr className="text-gray-500 my-8 sm:w-4/5" />
 
           {/* Additional Info */}

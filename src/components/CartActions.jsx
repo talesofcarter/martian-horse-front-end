@@ -44,10 +44,17 @@ const CartActions = () => {
       <div className="flex">
         <button
           onClick={handleClearClick}
-          className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg hover:bg-red-600 transition-all cursor-pointer"
+          className="flex items-center justify-center gap-2 px-4 py-3 bg-black text-white rounded-lg hover:bg-red-600 transition-all cursor-pointer w-full sm:w-auto"
           aria-label="Clear shopping cart"
         >
-          Clear Cart
+          {isClearing ? (
+            <ClipLoader color="#fff" size={16} />
+          ) : (
+            <>
+              <FiTrash2 className="w-4 h-4" />
+              Clear Cart
+            </>
+          )}
         </button>
       </div>
 
