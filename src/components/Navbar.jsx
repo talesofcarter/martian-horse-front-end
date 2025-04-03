@@ -191,21 +191,21 @@ const Navbar = () => {
                   onClick={() => setVisible(false)}
                   to="/"
                   className={({ isActive }) =>
-                    `py-2 px-4 rounded-lg text-base font-medium transition-all duration-300 flex items-center gap-3 ${
+                    `py-2 px-3 rounded-lg text-base font-medium transition-all duration-300 flex items-center gap-3 ${
                       isActive
                         ? "bg-white/10 text-white"
                         : "text-gray-200 hover:bg-white/10 hover:text-white"
                     }`
                   }
                 >
-                  <IoHomeOutline className="w-4 h-4" />
+                  <IoHomeOutline className="w-5 h-5" />
                   Home
                 </NavLink>
                 <NavLink
                   onClick={() => setVisible(false)}
                   to="/shop"
                   className={({ isActive }) =>
-                    `py-2 px-3 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
+                    `py-2 px-3 rounded-lg text-base font-medium transition-all duration-300 flex items-center gap-2 ${
                       isActive
                         ? "bg-white/10 text-white"
                         : "text-gray-200 hover:bg-white/10 hover:text-white"
@@ -219,7 +219,7 @@ const Navbar = () => {
                   onClick={() => setVisible(false)}
                   to="/contact"
                   className={({ isActive }) =>
-                    `py-2 px-3 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
+                    `py-2 px-3 rounded-lg text-base font-medium transition-all duration-300 flex items-center gap-2 ${
                       isActive
                         ? "bg-white/10 text-white"
                         : "text-gray-200 hover:bg-white/10 hover:text-white"
@@ -233,7 +233,7 @@ const Navbar = () => {
                   onClick={() => setVisible(false)}
                   to="/about"
                   className={({ isActive }) =>
-                    `py-2 px-3 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
+                    `py-2 px-3 rounded-lg text-base font-medium transition-all duration-300 flex items-center gap-2 ${
                       isActive
                         ? "bg-white/10 text-white"
                         : "text-gray-200 hover:bg-white/10 hover:text-white"
@@ -248,12 +248,12 @@ const Navbar = () => {
                     setShowSearch(true);
                     setVisible(false);
                   }}
-                  className="py-2 px-3 rounded-lg text-sm font-medium transition-all duration-300 text-gray-200 hover:bg-white/10 hover:text-white cursor-pointer flex items-center gap-2"
+                  className="py-2 px-3 rounded-lg text-base font-medium transition-all duration-300 text-gray-200 hover:bg-white/10 hover:text-white cursor-pointer flex items-center gap-2"
                 >
                   <RiSearchLine className="w-5 h-5" />
                   Search
                 </div>
-                <div className="py-2 px-3 rounded-lg text-sm font-medium transition-all duration-300 text-gray-200 hover:bg-white/10 hover:text-white cursor-pointer flex items-center gap-2">
+                <div className="py-2 px-3 rounded-lg text-base font-medium transition-all duration-300 text-gray-200 hover:bg-white/10 hover:text-white cursor-pointer flex items-center gap-2">
                   <BiUser className="w-5 h-5" />
                   {token ? (
                     <span
@@ -282,7 +282,7 @@ const Navbar = () => {
                         setVisible(false);
                         navigate("/orders");
                       }}
-                      className="py-2 px-3 rounded-lg text-sm font-medium transition-all duration-300 text-gray-200 hover:bg-white/10 hover:text-white cursor-pointer flex items-center gap-2"
+                      className="py-2 px-3 rounded-lg text-base font-medium transition-all duration-300 text-gray-200 hover:bg-white/10 hover:text-white cursor-pointer flex items-center gap-2"
                     >
                       <IoCartOutline className="w-5 h-5" />
                       Orders
@@ -292,7 +292,7 @@ const Navbar = () => {
                         logOut();
                         setVisible(false);
                       }}
-                      className="py-2 px-3 rounded-lg text-sm font-medium transition-all duration-300 text-gray-200 hover:bg-white/10 hover:text-white cursor-pointer flex items-center gap-2"
+                      className="py-2 px-3 rounded-lg text-base font-medium transition-all duration-300 text-gray-200 hover:bg-white/10 hover:text-white cursor-pointer flex items-center gap-2"
                     >
                       <IoLogOutOutline className="w-5 h-5" />
                       Logout
