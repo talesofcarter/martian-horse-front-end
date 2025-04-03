@@ -167,59 +167,10 @@ textarea.focus-ring-gray-300:focus {
   box-shadow: 0 0 0 2px #d1d5db; /* Match focus:ring-gray-300 */
 }
 
-/* Buttons with Tailwind bg-black or custom colors */
-button.bg-black,
-button[class*="bg-black"] {
-  background-color: #000000; /* Fallback for bg-black */
-  transition-property: background-color; /* Ensure transitions work */
-  transition-duration: 300ms;
-  transition-timing-function: ease-in-out;
-}
-
-button.bg-black:hover {
-  background-color: #8b4513; /* Fallback for hover:bg-chocolateBrown */
-}
-
 /* Buttons with custom Tailwind colors */
-button[class*="bg-martianRed"] {
-  background-color: #ff4d4d; /* Fallback for bg-martianRed */
-  transition-property: background-color;
-  transition-duration: 300ms;
-  transition-timing-function: ease-in-out;
-}
-
-button[class*="bg-chocolateBrown"] {
-  background-color: #8b4513; /* Fallback for bg-chocolateBrown */
-  transition-property: background-color;
-  transition-duration: 300ms;
-  transition-timing-function: ease-in-out;
-}
 
 /* Backgrounds with custom Tailwind colors */
 .bg-lightGray,
 [class*="bg-lightGray"] {
   background-color: #f7fafc; /* Fallback for bg-lightGray */
-}
-
-/* Gradients for sidebar or other elements */
-.gradient-martianRed-to-darkRed {
-  background: linear-gradient(to bottom right, #ff4d4d, #8b0000); /* Standard */
-  background: -webkit-linear-gradient(
-    to bottom right,
-    #ff4d4d,
-    #8b0000
-  ); /* iOS Safari */
-  background: -moz-linear-gradient(
-    to bottom right,
-    #ff4d4d,
-    #8b0000
-  ); /* Firefox */
-  background: -o-linear-gradient(to bottom right, #ff4d4d, #8b0000); /* Opera */
-}
-
-/* Overlay with backdrop blur or opacity */
-.overlay-blur {
-  background: rgba(0, 0, 0, 0.5); /* Fallback for bg-opacity-50 */
-  backdrop-filter: blur(8px); /* Standard syntax */
-  -webkit-backdrop-filter: blur(8px); /* iOS Safari */
 }
