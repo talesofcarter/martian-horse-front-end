@@ -136,15 +136,11 @@ const Product = () => {
                 <button
                   key={index}
                   onClick={() => setSize(item)}
-                  className={`iOS-fixes px-6 py-2 border rounded-lg text-sm font-medium ${
+                  className={`px-6 py-2 border rounded-lg text-sm font-medium ${
                     size === item
                       ? "bg-orange-500 text-white border-2 border-orange-500"
                       : "bg-gray-100 border-2 border-gray-200 hover:bg-gray-200"
                   } transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-300`}
-                  style={{
-                    WebkitTapHighlightColor: "transparent",
-                    appearance: "none",
-                  }}
                 >
                   {item}
                 </button>
@@ -153,8 +149,8 @@ const Product = () => {
           </div>
 
           {/* Quantity and Add to Cart */}
-          {/* Quantity and Add to Cart - Updated for responsive layout */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-8">
+
+          <div className="flex flex-col sm:flex-row gap-4 mb-8 input-button">
             <div className="flex gap-4">
               <div
                 className={`flex items-center border border-gray-300 rounded-lg w-[140px] ${

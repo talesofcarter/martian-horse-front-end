@@ -1,9 +1,35 @@
-.iOS-fixes {
+/* iOS Tap Highlight and Button Styling Fixes */
+button,
+.input-button,
+[type="button"],
+[type="submit"] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   -webkit-tap-highlight-color: transparent;
-  border-style: solid;
   transform: translateZ(0);
-  touch-action: manipulation;
+  border-style: solid;
+}
+
+/* Force borders to be visible on iOS */
+* {
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Specific fix for input borders */
+input,
+.input-like {
+  border-width: 1px !important;
+  border-color: #d1d5db !important;
+  border-radius: 0.5rem !important;
+}
+
+/* Fix for button highlight states */
+button:active,
+button:focus {
+  outline: none;
+  transform: translateZ(0) scale(0.98);
 }
