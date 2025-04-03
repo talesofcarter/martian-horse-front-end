@@ -7,8 +7,20 @@ const ProductItem = ({ id, image, name, price }) => {
   const [isHovered, setIsHovered] = useState(false);
   const { currency } = useContext(ShopContext);
 
+  // scroll to top
+  const handleClick = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // Smooth scrolling effect
+    });
+  };
+
   return (
-    <Link className="text-gray-700 cursor-pointer" to={`/product/${id}`}>
+    <Link
+      className="text-gray-700 cursor-pointer"
+      to={`/product/${id}`}
+      onClick={handleClick}
+    >
       <div
         className="relative overflow-hidden border border-gray-200 rounded-lg shadow-sm"
         onMouseEnter={() => setIsHovered(true)}
@@ -38,7 +50,7 @@ const ProductItem = ({ id, image, name, price }) => {
         <h3 className="text-base text-black font-medium tracking-wide leading-tight truncate">
           {name}
         </h3>
-        <p className="text-sm  font-semibold text-black mt-1">
+        <p className="text-sm font-semibold text-black mt-1">
           {currency}{" "}
           <span className="text-black text-base">
             {Number(price).toLocaleString("en-US")}
