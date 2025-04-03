@@ -26,11 +26,14 @@ const ProductItem = ({ id, image, name, price }) => {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <img
-          className="w-full hover:scale-110 transition-transform ease-in-out duration-300"
-          src={image[0]}
-          alt={name}
-        />
+        {/* Image container with fixed height */}
+        <div className="w-full h-[200px] overflow-hidden flex items-center justify-center">
+          <img
+            className="w-full h-full object-cover hover:scale-110 transition-transform ease-in-out duration-300"
+            src={image[0]}
+            alt={name}
+          />
+        </div>
 
         {isHovered && (
           <motion.button
