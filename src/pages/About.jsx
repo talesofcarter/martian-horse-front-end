@@ -52,7 +52,7 @@ const About = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-gray-700">
             {/* Card 1 - with iOS specific fixes */}
-            <div className="bg-[#d10000] bg-gradient-to-br from-martianRed to-darkRed p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+            <div className="bg-darkRed bg-gradient-to-br from-martianRed to-darkRed p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
               <h3 className="text-lg font-semibold text-white mb-4 whitespace-nowrap">
                 Premium Quality
               </h3>
@@ -64,7 +64,7 @@ const About = () => {
             </div>
 
             {/* Card 2 - with iOS specific fixes */}
-            <div className="bg-[#d10000] bg-gradient-to-br from-martianRed to-darkRed p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+            <div className="bg-darkRed bg-gradient-to-br from-martianRed to-darkRed p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
               <h3 className="text-lg font-semibold text-white mb-4 whitespace-nowrap">
                 Customer Service
               </h3>
@@ -76,7 +76,7 @@ const About = () => {
             </div>
 
             {/* Card 3 - with iOS specific fixes */}
-            <div className="bg-[#d10000] bg-gradient-to-br from-martianRed to-darkRed p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+            <div className="bg-darkRed bg-gradient-to-br from-martianRed to-darkRed p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
               <h3 className="text-lg font-semibold text-white mb-4 whitespace-nowrap">
                 Trendy Design
               </h3>
