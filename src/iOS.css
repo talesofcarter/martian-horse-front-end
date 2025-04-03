@@ -1,0 +1,9 @@
+.iOS-fixes {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  border-style: solid;
+  transform: translateZ(0);
+  touch-action: manipulation;
+}

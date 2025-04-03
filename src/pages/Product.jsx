@@ -7,7 +7,7 @@ import { ClipLoader } from "react-spinners"; // For loading state
 import RelatedProducts from "../components/RelatedProducts";
 import { BiMinus } from "react-icons/bi";
 import CartActions from "../components/CartActions";
-
+import "./../iOS.css";
 const Product = () => {
   const { productId } = useParams();
   const {
@@ -136,7 +136,7 @@ const Product = () => {
                 <button
                   key={index}
                   onClick={() => setSize(item)}
-                  className={`px-6 py-2 border rounded-lg text-sm font-medium ${
+                  className={`iOS-fixes px-6 py-2 border rounded-lg text-sm font-medium ${
                     size === item
                       ? "bg-orange-500 text-white border-2 border-orange-500"
                       : "bg-gray-100 border-2 border-gray-200 hover:bg-gray-200"
