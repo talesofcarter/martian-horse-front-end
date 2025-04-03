@@ -119,16 +119,15 @@ const Navbar = () => {
 
       {/* Sidebar menu for small screens */}
       <div
-        className={`fixed text-white top-0 left-0 h-screen w-3/4 max-w-[280px] shadow-lg z-[1000] transform transition-transform duration-300 ease-in-out ${
+        className={`fixed text-white top-0 left-0 h-screen w-3/4 max-w-[280px] shadow-lg z-[1000] transform-gpu transition-transform duration-300 ease-in-out ${
           visible ? "translate-x-0" : "-translate-x-full"
         }`}
         style={{
           display: visible ? "block" : "none", // Explicitly hide when not visible
-          background: "linear-gradient(to bottom right, #ff4d4d, #8b0000)",
-          background:
-            "-webkit-linear-gradient(to bottom right, #ff4d4d, #8b0000)",
-          background: "-moz-linear-gradient(to bottom right, #ff4d4d, #8b0000)",
-          background: "-o-linear-gradient(to bottom right, #ff4d4d, #8b0000)",
+          background: `linear-gradient(135deg, #910019, #3d000a),
+          -webkit-linear-gradient(135deg, #910019, #3d000a)`,
+          //fallback
+          backgroundColor: "#3d000a",
         }}
       >
         <div className="flex flex-col h-full text-gray-100">
@@ -136,13 +135,10 @@ const Navbar = () => {
           <div
             className="flex items-center justify-between p-4 border-b border-gray-400/30"
             style={{
-              background: "linear-gradient(to bottom right, #ff4d4d, #8b0000)",
-              background:
-                "-webkit-linear-gradient(to bottom right, #ff4d4d, #8b0000)",
-              background:
-                "-moz-linear-gradient(to bottom right, #ff4d4d, #8b0000)",
-              background:
-                "-o-linear-gradient(to bottom right, #ff4d4d, #8b0000)",
+              background: `
+             linear-gradient(135deg, #b8011f, #3d000a),
+             `,
+              backgroundColor: "#3d000a",
             }}
           >
             <span className="text-lg font-semibold text-white tracking-wide">
@@ -297,6 +293,8 @@ const Navbar = () => {
             background: "rgba(0, 0, 0, 0.5)",
             backdropFilter: "blur(8px)",
             WebkitBackdropFilter: "blur(8px)",
+            // fallback
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
           }}
         />
       )}
