@@ -36,11 +36,32 @@ const socialsList = socialsData.map(({ name, icon, link }) => (
 function Footer() {
   const { navigate } = useContext(ShopContext);
 
+  const scrollToSection = (path) => {
+    if (path === "/") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      const sectionId = path.substring(1);
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
+  const handleLinkClick = (path) => {
+    if (window.location.pathname === path) {
+      scrollToSection(path);
+    } else {
+      navigate(path);
+      setTimeout(() => scrollToSection(path), 500);
+    }
+  };
+
   const linkElement = links.map((url) => (
     <li key={url.link}>
       <a
         className="hover:text-gray-300 transition-colors duration-200 cursor-pointer"
-        onClick={() => navigate(url.path)}
+        onClick={() => handleLinkClick(url.path)}
       >
         {url.link}
       </a>
@@ -50,7 +71,7 @@ function Footer() {
   const quickLinksElement = quickLinks.map((url) => (
     <li key={url.link}>
       <a
-        onClick={() => navigate(url.path)}
+        onClick={() => handleLinkClick(url.path)}
         className="hover:text-gray-300 transition-colors duration-200 cursor-pointer"
       >
         {url.link}

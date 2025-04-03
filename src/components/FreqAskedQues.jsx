@@ -84,7 +84,7 @@ const FreqAskedQues = () => {
   };
 
   return (
-    <section className="min-h-[70vh] my-10 px-4 sm:px-6 lg:px-8">
+    <section id="faqs" className="min-h-[70vh] my-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8 tracking-tight">
           Frequently Asked Questions
