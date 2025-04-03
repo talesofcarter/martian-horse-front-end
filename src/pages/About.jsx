@@ -51,8 +51,9 @@ const About = () => {
             Why Choose Us
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-gray-700">
-            <div className="bg-gradient-to-br from-martianRed to-darkRed p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
-              <h3 className="text-lg font-semibold text-white mb-4">
+            {/* Card 1 - with iOS specific fixes */}
+            <div className="bg-[#d10000] bg-gradient-to-br from-martianRed to-darkRed p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+              <h3 className="text-lg font-semibold text-white mb-4 whitespace-nowrap">
                 Premium Quality
               </h3>
               <p className="text-base leading-relaxed text-white">
@@ -61,17 +62,25 @@ const About = () => {
                 test of time.
               </p>
             </div>
-            <div className="bg-gradient-to-br from-martianRed to-darkRed p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 text-white">
-              <h3 className="text-lg font-semibold mb-4">Customer Service</h3>
-              <p className="text-base leading-relaxed">
+
+            {/* Card 2 - with iOS specific fixes */}
+            <div className="bg-[#d10000] bg-gradient-to-br from-martianRed to-darkRed p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+              <h3 className="text-lg font-semibold text-white mb-4 whitespace-nowrap">
+                Customer Service
+              </h3>
+              <p className="text-base leading-relaxed text-white">
                 Your satisfaction is our priority! We offer personalized
                 support, easy returns, and a seamless shopping experience to
                 ensure you feel valued.
               </p>
             </div>
-            <div className="bg-gradient-to-br from-martianRed to-darkRed text-white p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
-              <h3 className="text-lg font-semibold mb-4">Trendy Design</h3>
-              <p className="text-base leading-relaxed">
+
+            {/* Card 3 - with iOS specific fixes */}
+            <div className="bg-[#d10000] bg-gradient-to-br from-martianRed to-darkRed p-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+              <h3 className="text-lg font-semibold text-white mb-4 whitespace-nowrap">
+                Trendy Design
+              </h3>
+              <p className="text-base leading-relaxed text-white">
                 Our collections fuse modern trends with timeless elegance,
                 offering versatile pieces that elevate your style for any
                 occasion.

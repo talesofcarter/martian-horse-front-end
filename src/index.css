@@ -132,45 +132,48 @@ a.active hr {
 input,
 textarea,
 select {
-  -webkit-appearance: none; /* Remove iOS Safari default styling */
-  -moz-appearance: none; /* Remove Firefox default styling */
-  appearance: none; /* Standard syntax */
-  border: 1px solid #d1d5db; /* Explicit border fallback (Tailwind gray-300) */
-  background-color: #ffffff; /* Ensure white background */
-  border-radius: 0.375rem; /* Match Tailwind's rounded-md (6px) */
-  padding: 0.75rem 1rem; /* Match Tailwind's py-3 px-4 */
-  box-sizing: border-box; /* Ensure padding doesn't affect width */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  border-radius: 0.375rem;
+  padding: 0.75rem 1rem;
+  box-sizing: border-box;
 }
 
-/* Ensure focus states are consistent */
 input:focus,
 textarea:focus,
 select:focus {
-  outline: none; /* Remove default outline */
-  border-color: transparent; /* Match focus:border-transparent */
-  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1); /* Fallback for focus:ring */
+  outline: none;
+  border-color: transparent;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Specific overrides for components using custom focus rings */
 input.focus-ring-martianRed:focus,
 textarea.focus-ring-martianRed:focus {
-  box-shadow: 0 0 0 2px #ff4d4d; /* Match focus:ring-martianRed */
+  box-shadow: 0 0 0 2px #ff4d4d;
 }
 
 input.focus-ring-chocolateBrown:focus,
 textarea.focus-ring-chocolateBrown:focus {
-  box-shadow: 0 0 0 2px #8b4513; /* Match focus:ring-chocolateBrown */
+  box-shadow: 0 0 0 2px #8b4513;
 }
 
 input.focus-ring-gray-300:focus,
 textarea.focus-ring-gray-300:focus {
-  box-shadow: 0 0 0 2px #d1d5db; /* Match focus:ring-gray-300 */
+  box-shadow: 0 0 0 2px #d1d5db;
 }
 
-/* Buttons with custom Tailwind colors */
-
-/* Backgrounds with custom Tailwind colors */
 .bg-lightGray,
 [class*="bg-lightGray"] {
-  background-color: #f7fafc; /* Fallback for bg-lightGray */
+  background-color: #f7fafc;
+}
+
+@supports (-webkit-touch-callout: none) {
+  /* iOS-specific styles */
+  .ios-gradient-fix {
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
 }
