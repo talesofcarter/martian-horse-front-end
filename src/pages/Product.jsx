@@ -1,86 +1,260 @@
-// components/ConfirmationModal.jsx
-import { useEffect } from "react";
-import { createPortal } from "react-dom";
+import React, { useContext, useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { ShopContext } from "../context/ShopContext";
+import { MdOutlineStarBorder, MdOutlineStar } from "react-icons/md";
+import { GoPlus } from "react-icons/go";
+import { ClipLoader } from "react-spinners"; // For loading state
+import RelatedProducts from "../components/RelatedProducts";
+import { BiMinus } from "react-icons/bi";
+import CartActions from "../components/CartActions";
+import "./../iOS.css";
+const Product = () => {
+  const { productId } = useParams();
+  const {
+    products,
+    currency,
+    addToCart,
+    cartItems,
+    getCartCount,
+    updateQuantity,
+    clearCart,
+  } = useContext(ShopContext);
+  const [productData, setProductData] = useState(null);
+  const [image, setImage] = useState("");
+  const [size, setSize] = useState("");
+  const [count, setCount] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("description");
 
-const ConfirmationModal = ({
-  isOpen,
-  onClose,
-  onConfirm,
-  title = "Are you sure?",
-  message = "This action cannot be undone.",
-  confirmText = "Confirm",
-  cancelText = "Cancel",
-}) => {
+  const isInCart = cartItems[productId] && cartItems[productId][size];
+
+  const hasCartItems = getCartCount() > 0;
+
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
+    const fetchProductData = () => {
+      const product = products.find((item) => item._id === productId);
+      if (product) {
+        setProductData(product);
+        setImage(product.image[0]);
+
+        if (cartItems[productId]) {
+          const sizesInCart = Object.keys(cartItems[productId]);
+          if (sizesInCart.length > 0) {
+            setSize(sizesInCart[0]);
+            setCount(cartItems[productId][sizesInCart[0]]);
+          }
+        }
+      }
+      setIsLoading(false);
+    };
+
+    fetchProductData();
+  }, [productId, products, cartItems]);
+
+  const handleQuantityChange = (newCount) => {
+    if (newCount < 1) return;
+    setCount(newCount);
+
+    if (isInCart) {
+      updateQuantity(productId, size, newCount);
+    }
+  };
+
+  const handleAddToCart = () => {
+    if (!size) {
+      toast.error("Select Product Size");
+      return;
     }
 
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [isOpen]);
+    addToCart(productId, size);
+    setCount(1);
+  };
 
-  if (!isOpen) return null;
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader color="#000" size={50} />
+      </div>
+    );
+  }
 
-  const modalContent = (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
-      {/* Background overlay */}
-      <div
-        className="fixed inset-0 bg-gray-500 bg-opacity-75 backdrop-blur-sm transition-opacity"
-        onClick={onClose}
-      />
+  if (!productData) {
+    return <div className="text-center py-20">Product not found.</div>;
+  }
 
-      {/* Modal container */}
-      <div className="relative z-50 w-full max-w-md mx-4 transform overflow-hidden rounded-lg bg-white shadow-2xl transition-all">
-        <div className="px-6 py-5">
-          <div className="flex items-start">
-            <div className="flex-shrink-0 mr-4">
-              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-red-100">
-                <svg
-                  className="w-6 h-6 text-red-600"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div className="flex-1">
-              <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
-              <p className="mt-2 text-sm text-gray-600">{message}</p>
-            </div>
+  return (
+    <div className="container mx-auto px-4 py-10">
+      <div className="flex flex-col md:flex-row gap-8">
+        {/* Product Images */}
+        <div className="flex-1 flex flex-col-reverse md:flex-row gap-4">
+          {/* Thumbnails */}
+          <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto md:w-1/5">
+            {productData.image.map((item, index) => (
+              <img
+                key={index}
+                src={item}
+                alt={`Product Thumbnail ${index + 1}`}
+                onClick={() => setImage(item)}
+                className={`rounded-lg cursor-pointer border-2 ${
+                  image === item ? "border-orange-500" : "border-gray-200"
+                } hover:border-orange-300 transition-all`}
+              />
+            ))}
+          </div>
+          {/* Main Image */}
+          <div className="flex-1">
+            <img
+              src={image}
+              alt={productData.name}
+              className="w-full h-auto rounded-lg shadow-lg"
+            />
           </div>
         </div>
-        <div className="bg-gray-50 px-6 py-4 flex justify-end gap-3">
-          <button
-            type="button"
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-            onClick={onClose}
-          >
-            {cancelText}
-          </button>
-          <button
-            type="button"
-            className="px-4 py-2 text-sm font-medium text-white bg-black rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-            onClick={onConfirm}
-          >
-            {confirmText}
-          </button>
+
+        {/* Product Info */}
+        <div className="flex-1">
+          <h1 className="text-3xl font-bold mb-4">{productData.name}</h1>
+          <div className="flex items-center gap-1 mb-4">
+            {[...Array(5)].map((_, index) => (
+              <MdOutlineStarBorder
+                key={index}
+                className="w-6 h-6 text-yellow-400"
+              />
+            ))}
+            <p className="text-gray-500">(0 reviews)</p>
+          </div>
+          <p className="text-4xl font-semibold mb-6">
+            {currency} {productData.price.toLocaleString()}
+          </p>
+          <p className="text-gray-700 mb-8">{productData.description}</p>
+
+          {/* Size Selection */}
+          <div className="mb-8">
+            <p className="text-lg font-medium mb-4">Select Size</p>
+            <div className="flex gap-2 flex-wrap">
+              {productData.sizes.map((item, index) => (
+                <button
+                  key={index}
+                  onClick={() => setSize(item)}
+                  className={`px-6 py-2 border rounded-lg text-sm font-medium ${
+                    size === item
+                      ? "bg-orange-500 text-white border-2 border-orange-500"
+                      : "bg-gray-100 border-2 border-gray-200 hover:bg-gray-200"
+                  } transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-300`}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Quantity and Add to Cart */}
+
+          <div className="flex flex-col sm:flex-row gap-4 mb-8 iOS-fixes">
+            <div className="flex gap-4">
+              <div
+                className={`flex items-center border border-gray-300 rounded-lg w-[140px] ${
+                  !isInCart ? "opacity-50 pointer-events-none" : ""
+                }`}
+              >
+                <button
+                  onClick={() => handleQuantityChange(count - 1)}
+                  className="px-4 py-2 hover:bg-gray-100 transition-all cursor-pointer"
+                  disabled={!isInCart}
+                >
+                  <BiMinus />
+                </button>
+                <span className="px-4 py-2">{count}</span>
+                <button
+                  onClick={() => handleQuantityChange(count + 1)}
+                  className="px-4 py-2 hover:bg-gray-100 transition-all cursor-pointer"
+                  disabled={!isInCart}
+                >
+                  <GoPlus />
+                </button>
+              </div>
+              <button
+                onClick={handleAddToCart}
+                className={`px-8 py-3 rounded-lg transition-all cursor-pointer ${
+                  isInCart
+                    ? "bg-gray-500 text-white hover:bg-gray-600"
+                    : "bg-black text-white hover:bg-gray-800"
+                }`}
+              >
+                {isInCart ? "Update" : "Add to Cart"}
+              </button>
+            </div>
+            {hasCartItems && (
+              <div className="sm:ml-4">
+                <CartActions />
+              </div>
+            )}
+          </div>
+          <hr className="text-gray-500 my-8 sm:w-4/5" />
+
+          {/* Additional Info */}
+          <div className=" text-gray-600">
+            <p>Free shipping on orders over {currency} 100.</p>
+            <p>Cash on delivery is available on this product.</p>
+            <p>7-day return policy.</p>
+          </div>
         </div>
       </div>
+      {/*----- Description & Review ----- */}
+      <div className="mt-20">
+        {/* Tabs */}
+        <div className="flex border-b border-gray-200">
+          <button
+            className={`relative px-6 py-3 text-sm font-medium ${
+              activeTab === "description"
+                ? "text-black"
+                : "text-gray-500 hover:text-gray-700"
+            } transition-all cursor-pointer`}
+            onClick={() => setActiveTab("description")}
+          >
+            Description
+            {/* Active Tab Indicator */}
+            {activeTab === "description" && (
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-black"></span>
+            )}
+          </button>
+          <button
+            className={`relative px-6 py-3 text-sm font-medium ${
+              activeTab === "reviews"
+                ? "text-black"
+                : "text-gray-500 hover:text-gray-700"
+            } transition-all cursor-pointer`}
+            onClick={() => setActiveTab("reviews")}
+          >
+            Reviews (0)
+            {/* Active Tab Indicator */}
+            {activeTab === "reviews" && (
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-black"></span>
+            )}
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className="mt-6">
+          {activeTab === "description" && (
+            <div className="text-gray-600 leading-7">
+              <p>{productData.description}</p>
+            </div>
+          )}
+          {activeTab === "reviews" && (
+            <div className="text-gray-600">
+              <p>No reviews yet. Be the first to review this product!</p>
+            </div>
+          )}
+        </div>
+      </div>
+      {/* ----- related products ------- */}
+      <RelatedProducts
+        category={productData.category}
+        subCategory={productData.subCategory}
+      />
     </div>
   );
-
-  return createPortal(modalContent, document.body);
 };
 
-export default ConfirmationModal;
+export default Product;
