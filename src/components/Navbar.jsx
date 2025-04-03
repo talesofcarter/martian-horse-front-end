@@ -119,11 +119,11 @@ const Navbar = () => {
 
       {/* Sidebar menu for small screens */}
       <div
-        className={`fixed text-white top-0 left-0 h-screen w-3/4 max-w-[280px] shadow-lg z-[1000] transform-gpu transition-transform duration-300 ease-in-out ${
+        className={`fixed inset-0 text-white top-0 left-0 h-full w-full shadow-lg z-[1000] transform-gpu transition-transform duration-300 ease-in-out ${
           visible ? "translate-x-0" : "-translate-x-full"
         }`}
         style={{
-          display: visible ? "block" : "none", // Explicitly hide when not visible
+          display: visible ? "block" : "none",
           background: `linear-gradient(135deg, #910019, #3d000a),
           -webkit-linear-gradient(135deg, #910019, #3d000a)`,
           //fallback
@@ -133,7 +133,7 @@ const Navbar = () => {
         <div className="flex flex-col h-full text-gray-100">
           {/* Header */}
           <div
-            className="flex items-center justify-between p-4 border-b border-gray-400/30"
+            className="flex items-center justify-between px-7 py-4 border-b border-gray-400/30"
             style={{
               background: `
              linear-gradient(135deg, #b8011f, #3d000a),
@@ -155,7 +155,7 @@ const Navbar = () => {
               onClick={() => setVisible(false)}
               to="/"
               className={({ isActive }) =>
-                `py-2 px-3 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
+                `py-2 px-4 rounded-lg text-base font-medium transition-all duration-300 flex items-center gap-3 ${
                   isActive
                     ? "bg-white/10 text-white"
                     : "text-gray-200 hover:bg-white/10 hover:text-white"
@@ -176,7 +176,7 @@ const Navbar = () => {
                 }`
               }
             >
-              <IoStorefrontOutline className="w-4 h-4" />
+              <IoStorefrontOutline className="w-5 h-5" />
               Shop
             </NavLink>
             <NavLink
@@ -190,7 +190,7 @@ const Navbar = () => {
                 }`
               }
             >
-              <IoMailOutline className="w-4 h-4" />
+              <IoMailOutline className="w-5 h-5" />
               Contact
             </NavLink>
             <NavLink
@@ -204,7 +204,7 @@ const Navbar = () => {
                 }`
               }
             >
-              <IoInformationCircleOutline className="w-4 h-4" />
+              <IoInformationCircleOutline className="w-5 h-5" />
               About
             </NavLink>
             <div
@@ -214,11 +214,11 @@ const Navbar = () => {
               }}
               className="py-2 px-3 rounded-lg text-sm font-medium transition-all duration-300 text-gray-200 hover:bg-white/10 hover:text-white cursor-pointer flex items-center gap-2"
             >
-              <RiSearchLine className="w-4 h-4" />
+              <RiSearchLine className="w-5 h-5" />
               Search
             </div>
             <div className="py-2 px-3 rounded-lg text-sm font-medium transition-all duration-300 text-gray-200 hover:bg-white/10 hover:text-white cursor-pointer flex items-center gap-2">
-              <BiUser className="w-4 h-4" />
+              <BiUser className="w-5 h-5" />
               {token ? (
                 <span
                   onClick={() => {
@@ -248,7 +248,7 @@ const Navbar = () => {
                   }}
                   className="py-2 px-3 rounded-lg text-sm font-medium transition-all duration-300 text-gray-200 hover:bg-white/10 hover:text-white cursor-pointer flex items-center gap-2"
                 >
-                  <IoCartOutline className="w-4 h-4" />
+                  <IoCartOutline className="w-5 h-5" />
                   Orders
                 </div>
                 <div
@@ -258,7 +258,7 @@ const Navbar = () => {
                   }}
                   className="py-2 px-3 rounded-lg text-sm font-medium transition-all duration-300 text-gray-200 hover:bg-white/10 hover:text-white cursor-pointer flex items-center gap-2"
                 >
-                  <IoLogOutOutline className="w-4 h-4" />
+                  <IoLogOutOutline className="w-5 h-5" />
                   Logout
                 </div>
               </>
@@ -268,13 +268,10 @@ const Navbar = () => {
           <div
             className="p-3 border-t border-gray-400/30"
             style={{
-              background: "linear-gradient(to bottom right, #ff4d4d, #8b0000)",
-              background:
-                "-webkit-linear-gradient(to bottom right, #ff4d4d, #8b0000)",
-              background:
-                "-moz-linear-gradient(to bottom right, #ff4d4d, #8b0000)",
-              background:
-                "-o-linear-gradient(to bottom right, #ff4d4d, #8b0000)",
+              background: `linear-gradient(135deg, #910019, #3d000a),
+          -webkit-linear-gradient(135deg, #910019, #3d000a)`,
+              //fallback
+              backgroundColor: "#3d000a",
             }}
           >
             <p className="text-xs text-gray-300 font-light">
@@ -283,21 +280,6 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-
-      {/* Overlay */}
-      {visible && (
-        <div
-          onClick={() => setVisible(false)}
-          className="fixed inset-0 bg-opacity-50 z-[999] sm:hidden transition-all duration-300"
-          style={{
-            background: "rgba(0, 0, 0, 0.5)",
-            backdropFilter: "blur(8px)",
-            WebkitBackdropFilter: "blur(8px)",
-            // fallback
-            backgroundColor: "rgba(0, 0, 0, 0.7)",
-          }}
-        />
-      )}
     </header>
   );
 };
