@@ -10,7 +10,6 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import PlaceOrder from "./pages/PlaceOrder";
 import Orders from "./pages/Orders";
-import SubNav from "./components/SubNav";
 import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
 import { ToastContainer, toast } from "react-toastify";

@@ -180,10 +180,15 @@ const Navbar = () => {
                 <span className="text-lg font-semibold text-white tracking-wide">
                   Menu
                 </span>
-                <FaAngleLeft
-                  onClick={() => setVisible(false)}
-                  className="w-6 h-6 p-1 rounded-full bg-white/10 text-gray-200 cursor-pointer hover:bg-white/20 hover:text-white transition-colors duration-200"
-                />
+                <motion.div
+                  whileTap={{ scale: 0.9 }}
+                  whileHover={{ scale: 1.1 }}
+                >
+                  <FaAngleLeft
+                    onClick={() => setVisible(false)}
+                    className="w-6 h-6 p-1 rounded-full bg-white/10 text-gray-200 cursor-pointer hover:bg-white/20 hover:text-white transition-colors duration-200"
+                  />
+                </motion.div>
               </motion.div>
               {/* Navigation */}
               <div className="flex-1 flex flex-col gap-1 p-3">
@@ -301,7 +306,8 @@ const Navbar = () => {
                 )}
               </div>
               {/* Footer */}
-              <div
+              <motion.div
+                variants={menuItemVariants}
                 className="p-3 border-t border-gray-400/30"
                 style={{
                   background: `linear-gradient(135deg, #910019, #3d000a),
@@ -313,7 +319,7 @@ const Navbar = () => {
                 <p className="text-xs text-gray-300 font-light">
                   © 2025 Martian Horse
                 </p>
-              </div>
+              </motion.div>
             </div>
           </motion.div>
         )}
