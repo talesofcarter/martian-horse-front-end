@@ -150,7 +150,7 @@ const Product = () => {
 
           {/* Quantity and Add to Cart */}
 
-          <div className="flex flex-col sm:flex-row gap-4 mb-8 input-button">
+          <div className="flex flex-col sm:flex-row gap-4 mb-8 iOS-fixes">
             <div className="flex gap-4">
               <div
                 className={`flex items-center border border-gray-300 rounded-lg w-[140px] ${
