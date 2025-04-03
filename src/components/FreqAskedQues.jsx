@@ -3,14 +3,16 @@ import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { faqData } from "../assets/products/faqsData";
 
 const AccordionItem = ({ question, answer, isOpen, toggle }) => (
-  <div className="p-4 border-t border-gray-100 animate-fade-in">
-    <div className="flex items-center justify-between text-gray-700 font-medium mb-2">
+  <div
+    onClick={toggle}
+    className="p-4 border-t border-gray-100 animate-fade-in"
+  >
+    <div className="flex items-center justify-between text-gray-700 font-medium mb-2 cursor-pointer">
       <p>{question}</p>
       <div
         className={`transform transition-transform duration-300 cursor-pointer ${
           isOpen ? "rotate-180" : ""
         }`}
-        onClick={toggle}
       >
         <MdOutlineKeyboardArrowDown className="w-6 h-6 text-gray-600" />
       </div>
