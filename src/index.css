@@ -23,103 +23,120 @@ a.active hr {
   display: block;
 }
 
-@supports (-webkit-appearance: none) or (-moz-appearance: none) {
+/* Base checkbox styles with enhanced cross-browser support */
+.custom-checkbox {
+  --active: black;
+  --active-inner: #fff;
+  --border: gray;
+  --border-hover: black;
+  --background: #fff;
+  --disabled: #f6f8ff;
+  --disabled-inner: #e1e6f9;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 21px;
+  height: 21px;
+  outline: none;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  margin: 0;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--background);
+  border-radius: 4px; /* Slightly smaller radius for more square appearance */
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Focus state for better accessibility */
+.custom-checkbox:focus-visible {
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Checkmark styling */
+.custom-checkbox::after {
+  content: "";
+  position: absolute;
+  display: none; /* Start hidden */
+  left: 7px;
+  top: 3px;
+  width: 5px;
+  height: 10px;
+  border: solid var(--active-inner);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Checked state */
+.custom-checkbox:checked {
+  background-color: var(--active);
+  border-color: var(--active);
+}
+
+.custom-checkbox:checked::after {
+  display: block;
+}
+
+/* Hover state */
+.custom-checkbox:hover:not(:checked):not(:disabled) {
+  border-color: var(--border-hover);
+}
+
+/* Disabled state */
+.custom-checkbox:disabled {
+  background-color: var(--disabled);
+  border-color: var(--border);
+  cursor: not-allowed;
+}
+
+.custom-checkbox:disabled:checked {
+  background-color: var(--disabled-inner);
+}
+
+/* Label styling */
+.custom-checkbox + label {
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+  margin-left: 8px;
+  user-select: none;
+}
+
+/* iOS specific fixes */
+@supports (-webkit-touch-callout: none) {
   .custom-checkbox {
-    --active: black;
-    --active-inner: #fff;
+    -webkit-tap-highlight-color: transparent;
+    transform: translateZ(0); /* Force hardware acceleration */
+  }
 
-    --border: gray;
-    --border-hover: black;
-    --background: #fff;
-    --disabled: #f6f8ff;
-    --disabled-inner: #e1e6f9;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    height: 21px;
-    outline: none;
-    display: inline-block;
-    vertical-align: top;
-    position: relative;
-    margin: 0;
-    cursor: pointer;
-    border: 1px solid var(--bc, var(--border));
-    background: var(--b, var(--background));
-    transition: background 0.3s, border-color 0.3s, box-shadow 0.2s;
+  .custom-checkbox::after {
+    top: 4px; /* Slight adjustment for iOS rendering */
   }
-  .custom-checkbox:after {
-    content: "";
-    display: block;
-    left: 0;
-    top: 0;
-    position: absolute;
-    transition: transform var(--d-t, 0.3s) var(--d-t-e, ease),
-      opacity var(--d-o, 0.2s);
+}
+
+/* Firefox specific fixes */
+@-moz-document url-prefix() {
+  .custom-checkbox {
+    border-radius: 3px; /* Firefox renders borders slightly differently */
   }
+}
+
+/* Windows High Contrast Mode support */
+@media screen and (-ms-high-contrast: active) {
+  .custom-checkbox {
+    border-width: 2px;
+  }
+
   .custom-checkbox:checked {
-    --b: var(--active);
-    --bc: var(--active);
-    --d-o: 0.3s;
-    --d-t: 0.6s;
-    --d-t-e: cubic-bezier(0.2, 0.85, 0.32, 1.2);
-  }
-  .custom-checkbox:disabled {
-    --b: var(--disabled);
-    cursor: not-allowed;
-    opacity: 0.9;
-  }
-  .custom-checkbox:disabled:checked {
-    --b: var(--disabled-inner);
-    --bc: var(--border);
-  }
-  .custom-checkbox:disabled + label {
-    cursor: not-allowed;
-  }
-  .custom-checkbox:hover:not(:checked):not(:disabled) {
-    --bc: var(--border-hover);
-  }
-  .custom-checkbox:focus {
-    box-shadow: 0 0 0 var(--focus);
-  }
-  .custom-checkbox:not(.switch) {
-    width: 21px;
-  }
-  .custom-checkbox:not(.switch):after {
-    opacity: var(--o, 0);
-  }
-  .custom-checkbox:not(.switch):checked {
-    --o: 1;
-  }
-  .custom-checkbox + label {
-    display: inline-block;
-    vertical-align: middle;
-    cursor: pointer;
-    margin-left: 4px;
-  }
-
-  .custom-checkbox:not(.switch) {
-    border-radius: 7px;
-  }
-  .custom-checkbox:not(.switch):after {
-    width: 5px;
-    height: 9px;
-    border: 2px solid var(--active-inner);
-    border-top: 0;
-    border-left: 0;
-    left: 7px;
-    top: 4px;
-    transform: rotate(var(--r, 20deg));
-  }
-  .custom-checkbox:not(.switch):checked {
-    --r: 43deg;
+    background: windowText;
   }
 }
 
-.custom-checkbox * {
-  box-sizing: inherit;
-}
-.custom-checkbox *:before,
-.custom-checkbox *:after {
-  box-sizing: inherit;
+/* Remove default IE checkbox styling */
+input[type="checkbox"].custom-checkbox::-ms-check {
+  display: none;
 }
 
 .custom-shadow {
@@ -138,7 +155,7 @@ select {
   border: 1px solid #d1d5db;
   background-color: #ffffff;
   border-radius: 0.375rem;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 0.75rem;
   box-sizing: border-box;
 }
 
