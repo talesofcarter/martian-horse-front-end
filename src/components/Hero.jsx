@@ -85,7 +85,7 @@ const Hero = () => {
         ref={textRef}
         className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4 sm:px-6 md:px-8"
       >
-        <div className="bg-gray-900/70 py-4 px-4 sm:py-6 sm:px-6 md:py-8 md:px-8 rounded-lg w-full max-w-[90%] sm:max-w-[85%] md:max-w-3xl">
+        <div className="bg-gray-900/70 backdrop-blur-lg py-4 px-4 sm:py-6 sm:px-6 md:py-8 md:px-8 rounded-lg w-full max-w-[90%] sm:max-w-[85%] md:max-w-3xl">
           <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4 md:mb-6 tracking-tight leading-tight">
             Introducing{" "}
             <span className="text-chocolateBrown">Martian Horse</span>
