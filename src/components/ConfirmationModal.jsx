@@ -1,5 +1,6 @@
 // components/ConfirmationModal.jsx
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
 
 const ConfirmationModal = ({
   isOpen,
@@ -16,7 +17,6 @@ const ConfirmationModal = ({
     } else {
       document.body.style.overflow = "auto";
     }
-
     return () => {
       document.body.style.overflow = "auto";
     };
@@ -24,17 +24,13 @@ const ConfirmationModal = ({
 
   if (!isOpen) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
-      {/* Background overlay */}
+  const modalContent = (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div
         className="fixed inset-0 bg-gray-500 bg-opacity-75 backdrop-blur-sm transition-opacity"
-        onClick={onClose} // Allow clicking outside to close
+        onClick={onClose}
       />
-
-      {/* Modal container */}
-      <div className="relative z-50 w-full max-w-md mx-4 transform overflow-hidden rounded-lg bg-white shadow-2xl transition-all">
-        {/* Modal content */}
+      <div className="relative z-50 w-full max-w-md mx-4 bg-white rounded-lg shadow-2xl">
         <div className="px-6 py-5">
           <div className="flex items-start">
             <div className="flex-shrink-0 mr-4">
@@ -60,18 +56,17 @@ const ConfirmationModal = ({
             </div>
           </div>
         </div>
-        {/* Modal footer */}
         <div className="bg-gray-50 px-6 py-4 flex justify-end gap-3">
           <button
             type="button"
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 cursor-pointer"
             onClick={onClose}
           >
             {cancelText}
           </button>
           <button
             type="button"
-            className="px-4 py-2 text-sm font-medium text-white bg-black rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+            className="px-4 py-2 text-sm font-medium text-white bg-black rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 cursor-pointer"
             onClick={onConfirm}
           >
             {confirmText}
@@ -80,6 +75,8 @@ const ConfirmationModal = ({
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 };
 
 export default ConfirmationModal;

@@ -184,11 +184,7 @@ const Product = () => {
                 {isInCart ? "Update" : "Add to Cart"}
               </button>
             </div>
-            {hasCartItems && (
-              <div className="sm:ml-4">
-                <CartActions />
-              </div>
-            )}
+            {hasCartItems && <CartActions />}
           </div>
           <hr className="text-gray-500 my-8 sm:w-4/5" />
 
